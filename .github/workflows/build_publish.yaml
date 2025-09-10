@@ -56,4 +56,4 @@ jobs:
         with:
           push: true
           context: .
-          tags: ewoudje/estore:latest
+          tags: ghcr.io/ewoudje/estore:latest
