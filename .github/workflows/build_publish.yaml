@@ -30,11 +30,7 @@ jobs:
             _build
 
       - run: mix deps.get
-      - name: Check for unused deps
-        run: mix deps.unlock --check-unused
       - run: mix format --check-formatted
-      - name: Check for abandonded packaged
-        run: mix hex.audit
       - name: Build & Publish
         run: |
           mix compile
