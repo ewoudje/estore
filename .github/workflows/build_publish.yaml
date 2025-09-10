@@ -22,7 +22,7 @@ jobs:
           otp-version: 28
           elixir-version: 1.14
 
-        run: mix compile
+      - run: mix compile
       - name: Restore Dependency Cache
         uses: actions/cache@v3
         id: cache-deps
