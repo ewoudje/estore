@@ -1,0 +1,9 @@
+#!/sbin/openrc-run
+name="EStore"
+description="Estore"
+dir="/root/estore"
+command="/root/estore/bin/estore"
+command_background=true
+pidfile="/run/estore.pid"
+
+#export DATABASE_URL=
