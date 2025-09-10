@@ -9,6 +9,9 @@ on:
     branches:
       - "*"
 
+env:
+  MIX_ENV: prod
+
 jobs:
   build:
     runs-on: "ubuntu-latest"
@@ -46,8 +49,6 @@ jobs:
           mix assets.deploy
           mix phx.gen.release
           mix release
-        env:
-          MIX_ENV: prod
       - name: Zip
         run: zip _build/prod/rel/estore
       - name: Release
