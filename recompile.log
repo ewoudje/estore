@@ -1,0 +1,538 @@
+Checking bandit.ex
+a:/Fun/estore/deps/bandit/lib/bandit.ex
+Checking adapter.ex
+a:/Fun/estore/deps/bandit/lib/bandit/adapter.ex
+Checking application.ex
+a:/Fun/estore/deps/bandit/lib/bandit/application.ex
+Checking clock.ex
+a:/Fun/estore/deps/bandit/lib/bandit/clock.ex
+Checking compression.ex
+a:/Fun/estore/deps/bandit/lib/bandit/compression.ex
+Checking delegating_handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/delegating_handler.ex
+Checking extractor.ex
+a:/Fun/estore/deps/bandit/lib/bandit/extractor.ex
+Checking headers.ex
+a:/Fun/estore/deps/bandit/lib/bandit/headers.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/handler.ex
+Checking socket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/socket.ex
+Checking connection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/connection.ex
+Checking errors.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/errors.ex
+Checking flow_control.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/flow_control.ex
+Checking frame.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame.ex
+Checking continuation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/continuation.ex
+Checking data.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/data.ex
+Checking goaway.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/goaway.ex
+Checking headers.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/headers.ex
+Checking ping.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/ping.ex
+Checking priority.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/priority.ex
+Checking push_promise.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/push_promise.ex
+Checking rst_stream.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/rst_stream.ex
+Checking settings.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/settings.ex
+Checking unknown.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/unknown.ex
+Checking window_update.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/window_update.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/handler.ex
+Checking settings.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/settings.ex
+Checking stream.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream.ex
+Checking stream_collection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream_collection.ex
+Checking stream_process.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream_process.ex
+Checking http_error.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http_error.ex
+Checking http_transport.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http_transport.ex
+Checking initial_handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/initial_handler.ex
+Checking logger.ex
+a:/Fun/estore/deps/bandit/lib/bandit/logger.ex
+Checking phoenix_adapter.ex
+a:/Fun/estore/deps/bandit/lib/bandit/phoenix_adapter.ex
+Checking pipeline.ex
+a:/Fun/estore/deps/bandit/lib/bandit/pipeline.ex
+Checking websocket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/primitive_ops/websocket.ex
+Checking telemetry.ex
+a:/Fun/estore/deps/bandit/lib/bandit/telemetry.ex
+Checking trace.ex
+a:/Fun/estore/deps/bandit/lib/bandit/trace.ex
+Checking transport_error.ex
+a:/Fun/estore/deps/bandit/lib/bandit/transport_error.ex
+Checking transport_info.ex
+a:/Fun/estore/deps/bandit/lib/bandit/transport_info.ex
+Checking connection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/connection.ex
+Checking frame.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame.ex
+Checking binary.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/binary.ex
+Checking connection_close.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/connection_close.ex
+Checking continuation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/continuation.ex
+Checking ping.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/ping.ex
+Checking pong.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/pong.ex
+Checking text.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/text.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/handler.ex
+Checking handshake.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/handshake.ex
+Checking permessage_deflate.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/permessage_deflate.ex
+Checking socket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/socket.ex
+Checking upgrade_validation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/upgrade_validation.ex
+Checking adapter.ex
+a:/Fun/estore/deps/bandit/lib/bandit/adapter.ex
+Checking application.ex
+a:/Fun/estore/deps/bandit/lib/bandit/application.ex
+Checking clock.ex
+a:/Fun/estore/deps/bandit/lib/bandit/clock.ex
+Checking compression.ex
+a:/Fun/estore/deps/bandit/lib/bandit/compression.ex
+Checking delegating_handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/delegating_handler.ex
+Checking extractor.ex
+a:/Fun/estore/deps/bandit/lib/bandit/extractor.ex
+Checking headers.ex
+a:/Fun/estore/deps/bandit/lib/bandit/headers.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/handler.ex
+Checking socket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/socket.ex
+Checking connection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/connection.ex
+Checking errors.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/errors.ex
+Checking flow_control.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/flow_control.ex
+Checking frame.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame.ex
+Checking continuation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/continuation.ex
+Checking data.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/data.ex
+Checking goaway.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/goaway.ex
+Checking bandit.ex
+a:/Fun/estore/deps/bandit/lib/bandit.ex
+Checking adapter.ex
+a:/Fun/estore/deps/bandit/lib/bandit/adapter.ex
+Checking application.ex
+a:/Fun/estore/deps/bandit/lib/bandit/application.ex
+Checking clock.ex
+a:/Fun/estore/deps/bandit/lib/bandit/clock.ex
+Checking compression.ex
+a:/Fun/estore/deps/bandit/lib/bandit/compression.ex
+Checking delegating_handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/delegating_handler.ex
+Checking extractor.ex
+a:/Fun/estore/deps/bandit/lib/bandit/extractor.ex
+Checking headers.ex
+a:/Fun/estore/deps/bandit/lib/bandit/headers.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/handler.ex
+Checking socket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/socket.ex
+Checking connection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/connection.ex
+Checking errors.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/errors.ex
+Checking flow_control.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/flow_control.ex
+Checking frame.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame.ex
+Checking continuation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/continuation.ex
+Checking data.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/data.ex
+Checking goaway.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/goaway.ex
+Checking headers.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/headers.ex
+Checking ping.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/ping.ex
+Checking priority.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/priority.ex
+Checking push_promise.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/push_promise.ex
+Checking rst_stream.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/rst_stream.ex
+Checking settings.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/settings.ex
+Checking unknown.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/unknown.ex
+Checking window_update.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/window_update.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/handler.ex
+Checking settings.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/settings.ex
+Checking stream.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream.ex
+Checking stream_collection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream_collection.ex
+Checking stream_process.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream_process.ex
+Checking http_error.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http_error.ex
+Checking http_transport.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http_transport.ex
+Checking initial_handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/initial_handler.ex
+Checking logger.ex
+a:/Fun/estore/deps/bandit/lib/bandit/logger.ex
+Checking phoenix_adapter.ex
+a:/Fun/estore/deps/bandit/lib/bandit/phoenix_adapter.ex
+Checking pipeline.ex
+a:/Fun/estore/deps/bandit/lib/bandit/pipeline.ex
+Checking websocket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/primitive_ops/websocket.ex
+Checking telemetry.ex
+a:/Fun/estore/deps/bandit/lib/bandit/telemetry.ex
+Checking trace.ex
+a:/Fun/estore/deps/bandit/lib/bandit/trace.ex
+Checking transport_error.ex
+a:/Fun/estore/deps/bandit/lib/bandit/transport_error.ex
+Checking transport_info.ex
+a:/Fun/estore/deps/bandit/lib/bandit/transport_info.ex
+Checking connection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/connection.ex
+Checking frame.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame.ex
+Checking binary.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/binary.ex
+Checking connection_close.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/connection_close.ex
+Checking continuation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/continuation.ex
+Checking ping.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/ping.ex
+Checking pong.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/pong.ex
+Checking text.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/text.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/handler.ex
+Checking handshake.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/handshake.ex
+Checking permessage_deflate.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/permessage_deflate.ex
+Checking socket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/socket.ex
+Checking upgrade_validation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/upgrade_validation.ex
+Checking castore.ex
+a:/Fun/estore/deps/castore/lib/castore.ex
+Checking comeonin.ex
+a:/Fun/estore/deps/comeonin/lib/comeonin.ex
+Checking behaviour_test_helper.ex
+a:/Fun/estore/deps/comeonin/lib/comeonin/behaviour_test_helper.ex
+Checking password_hash.ex
+a:/Fun/estore/deps/comeonin/lib/comeonin/password_hash.ex
+Checking db_connection.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection.ex
+Checking app.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/app.ex
+Checking backoff.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/backoff.ex
+Checking connection.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection.ex
+Checking connection_error.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection_error.ex
+Checking connection_pool.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection_pool.ex
+Checking pool.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection_pool/pool.ex
+Checking holder.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/holder.ex
+Checking log_entry.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/log_entry.ex
+Checking ownership.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/ownership.ex
+Checking manager.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/ownership/manager.ex
+Checking proxy.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/ownership/proxy.ex
+Checking pool.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/pool.ex
+Checking query.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/query.ex
+Checking task.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/task.ex
+Checking telemetry_listener.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/telemetry_listener.ex
+Checking watcher.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/watcher.ex
+Checking decimal.ex
+a:/Fun/estore/deps/decimal/lib/decimal.ex
+Checking context.ex
+a:/Fun/estore/deps/decimal/lib/decimal/context.ex
+Checking error.ex
+a:/Fun/estore/deps/decimal/lib/decimal/error.ex
+Checking macros.ex
+a:/Fun/estore/deps/decimal/lib/decimal/macros.ex
+Checking dns_cluster.ex
+a:/Fun/estore/deps/dns_cluster/lib/dns_cluster.ex
+Checking ecto.ex
+a:/Fun/estore/deps/ecto/lib/ecto.ex
+Checking adapter.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter.ex
+Checking queryable.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/queryable.ex
+Checking schema.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/schema.ex
+Checking storage.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/storage.ex
+Checking transaction.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/transaction.ex
+Checking application.ex
+a:/Fun/estore/deps/ecto/lib/ecto/application.ex
+Checking association.ex
+a:/Fun/estore/deps/ecto/lib/ecto/association.ex
+Checking changeset.ex
+a:/Fun/estore/deps/ecto/lib/ecto/changeset.ex
+Checking relation.ex
+a:/Fun/estore/deps/ecto/lib/ecto/changeset/relation.ex
+Checking embedded.ex
+a:/Fun/estore/deps/ecto/lib/ecto/embedded.ex
+Checking enum.ex
+a:/Fun/estore/deps/ecto/lib/ecto/enum.ex
+Checking exceptions.ex
+a:/Fun/estore/deps/ecto/lib/ecto/exceptions.ex
+Checking json.ex
+a:/Fun/estore/deps/ecto/lib/ecto/json.ex
+Checking multi.ex
+a:/Fun/estore/deps/ecto/lib/ecto/multi.ex
+Checking parameterized_type.ex
+a:/Fun/estore/deps/ecto/lib/ecto/parameterized_type.ex
+Checking query.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query.ex
+Checking api.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/api.ex
+Checking builder.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder.ex
+Checking combination.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/combination.ex
+Checking cte.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/cte.ex
+Checking distinct.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/distinct.ex
+Checking dynamic.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/dynamic.ex
+Checking filter.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/filter.ex
+Checking from.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/from.ex
+Checking group_by.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/group_by.ex
+Checking join.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/join.ex
+Checking limit_offset.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/limit_offset.ex
+Checking lock.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/lock.ex
+Checking order_by.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/order_by.ex
+Checking preload.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/preload.ex
+Checking select.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/select.ex
+Checking update.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/update.ex
+Checking windows.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/builder/windows.ex
+Checking inspect.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/inspect.ex
+Checking planner.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/planner.ex
+Checking window_api.ex
+a:/Fun/estore/deps/ecto/lib/ecto/query/window_api.ex
+Checking queryable.ex
+a:/Fun/estore/deps/ecto/lib/ecto/queryable.ex
+Checking adapter.ex
+a:/Fun/estore/deps/bandit/lib/bandit/adapter.ex
+Checking application.ex
+a:/Fun/estore/deps/bandit/lib/bandit/application.ex
+Checking clock.ex
+a:/Fun/estore/deps/bandit/lib/bandit/clock.ex
+Checking compression.ex
+a:/Fun/estore/deps/bandit/lib/bandit/compression.ex
+Checking delegating_handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/delegating_handler.ex
+Checking extractor.ex
+a:/Fun/estore/deps/bandit/lib/bandit/extractor.ex
+Checking headers.ex
+a:/Fun/estore/deps/bandit/lib/bandit/headers.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/handler.ex
+Checking socket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http1/socket.ex
+Checking connection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/connection.ex
+Checking errors.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/errors.ex
+Checking flow_control.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/flow_control.ex
+Checking frame.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame.ex
+Checking continuation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/continuation.ex
+Checking data.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/data.ex
+Checking goaway.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/goaway.ex
+Checking headers.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/headers.ex
+Checking ping.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/ping.ex
+Checking priority.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/priority.ex
+Checking push_promise.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/push_promise.ex
+Checking rst_stream.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/rst_stream.ex
+Checking settings.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/settings.ex
+Checking unknown.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/unknown.ex
+Checking window_update.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/frame/window_update.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/handler.ex
+Checking settings.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/settings.ex
+Checking stream.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream.ex
+Checking stream_collection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream_collection.ex
+Checking stream_process.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http2/stream_process.ex
+Checking http_error.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http_error.ex
+Checking http_transport.ex
+a:/Fun/estore/deps/bandit/lib/bandit/http_transport.ex
+Checking initial_handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/initial_handler.ex
+Checking logger.ex
+a:/Fun/estore/deps/bandit/lib/bandit/logger.ex
+Checking phoenix_adapter.ex
+a:/Fun/estore/deps/bandit/lib/bandit/phoenix_adapter.ex
+Checking pipeline.ex
+a:/Fun/estore/deps/bandit/lib/bandit/pipeline.ex
+Checking websocket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/primitive_ops/websocket.ex
+Checking telemetry.ex
+a:/Fun/estore/deps/bandit/lib/bandit/telemetry.ex
+Checking trace.ex
+a:/Fun/estore/deps/bandit/lib/bandit/trace.ex
+Checking transport_error.ex
+a:/Fun/estore/deps/bandit/lib/bandit/transport_error.ex
+Checking transport_info.ex
+a:/Fun/estore/deps/bandit/lib/bandit/transport_info.ex
+Checking connection.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/connection.ex
+Checking frame.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame.ex
+Checking binary.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/binary.ex
+Checking connection_close.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/connection_close.ex
+Checking continuation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/continuation.ex
+Checking ping.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/ping.ex
+Checking pong.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/pong.ex
+Checking text.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/frame/text.ex
+Checking handler.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/handler.ex
+Checking handshake.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/handshake.ex
+Checking permessage_deflate.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/permessage_deflate.ex
+Checking socket.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/socket.ex
+Checking upgrade_validation.ex
+a:/Fun/estore/deps/bandit/lib/bandit/websocket/upgrade_validation.ex
+Checking app.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/app.ex
+Checking backoff.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/backoff.ex
+Checking connection.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection.ex
+Checking connection_error.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection_error.ex
+Checking connection_pool.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection_pool.ex
+Checking pool.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/connection_pool/pool.ex
+Checking holder.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/holder.ex
+Checking log_entry.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/log_entry.ex
+Checking ownership.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/ownership.ex
+Checking manager.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/ownership/manager.ex
+Checking proxy.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/ownership/proxy.ex
+Checking pool.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/pool.ex
+Checking query.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/query.ex
+Checking task.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/task.ex
+Checking telemetry_listener.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/telemetry_listener.ex
+Checking watcher.ex
+a:/Fun/estore/deps/db_connection/lib/db_connection/watcher.ex
+Checking adapter.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter.ex
+Checking queryable.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/queryable.ex
+Checking schema.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/schema.ex
+Checking storage.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/storage.ex
+Checking transaction.ex
+a:/Fun/estore/deps/ecto/lib/ecto/adapter/transaction.ex
+Checking application.ex
+a:/Fun/estore/deps/ecto/lib/ecto/application.ex
+Checking association.ex
+a:/Fun/estore/deps/ecto/lib/ecto/association.ex
+Checking changeset.ex
+a:/Fun/estore/deps/ecto/lib/ecto/changeset.ex
+Checking relation.ex
+a:/Fun/estore/deps/ecto/lib/ecto/changeset/relation.ex
+Checking embedded.ex
+a:/Fun/estore/deps/ecto/lib/ecto/embedded.ex
+Checking enum.ex
+a:/Fun/estore/deps/ecto/lib/ecto/enum.ex
+Checking exceptions.ex
+a:/Fun/estore/deps/ecto/lib/ecto/exceptions.ex
