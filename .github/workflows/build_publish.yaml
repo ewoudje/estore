@@ -37,10 +37,11 @@ jobs:
           mix phx.gen.release
           mix release
       - name: Zip
-        run: zip estore.zip _build/prod/rel/estore
+        working-directory: _build/prod/rel
+        run: zip estore.zip estore
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
           make_latest: true
           files: |
-            estore.zip
+            _build/prod/rel/estore.zip
