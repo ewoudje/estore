@@ -1,0 +1,62 @@
+# base configuration pulled from:
+# https://github.com/dashbitco/broadway/blob/master/.github/workflows/ci.yml
+
+name: Build & Publish
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
+      - name: Restore Dependency Cache
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: |
+            deps
+            _build
+          key: |
+            mix-${{ runner.os }}-${{matrix.elixir}}-${{matrix.otp}}-${{ hashFiles('**/mix.lock') }}
+          restore-keys: |
+            mix-${{ runner.os }}-${{matrix.elixir}}-${{matrix.otp}}-
+
+      - run: mix deps.get
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+      - run: mix deps.compile --warnings-as-errors
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+
+      - name: Check for unused deps
+        run: mix deps.unlock --check-unused
+
+      - run: mix format --check-formatted
+
+      - name: Check for abandonded packaged
+        run: mix hex.audit
+
+      - name: Build & Publish
+        run: |
+          mix compile
+          mix assets.deploy
+          mix phx.gen.release
+          mix release
+        env:
+          MIX_ENV: prod
+      - name: Zip
+        run: zip _build/prod/rel/estore
+      - name: Release
+        uses: softprops/action-gh-release@v2
+        with:
+          make_latest: true
+          files: |
+            _build/prod/rel/estore.zip
