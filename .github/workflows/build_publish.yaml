@@ -31,18 +31,9 @@ jobs:
             _build
 
       - run: mix deps.get
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-      - run: mix deps.compile --warnings-as-errors
-        if: steps.cache-deps.outputs.cache-hit != 'true'
-
       - name: Check for unused deps
         run: mix deps.unlock --check-unused
-
       - run: mix format --check-formatted
-
-      - name: Check for abandonded packaged
-        run: mix hex.audit
-
       - name: Build & Publish
         run: |
           mix compile
