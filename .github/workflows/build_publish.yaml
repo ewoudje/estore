@@ -38,7 +38,7 @@ jobs:
           mix release
       - name: Zip
         working-directory: _build/prod/rel
-        run: zip estore.zip estore
+        run: zip -r estore.zip estore
       - name: Release
         uses: softprops/action-gh-release@v2
         with:
