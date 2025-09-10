@@ -43,4 +43,4 @@ jobs:
         with:
           make_latest: true
           files: |
-            store.zip
+            estore.zip
