@@ -22,5 +22,3 @@ COPY --chown=nobody:root README.md ./
 
 
 USER nobody
-
-CMD ["/app/bin/server"]
