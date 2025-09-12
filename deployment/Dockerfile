@@ -36,7 +36,7 @@ RUN chown nobody /app
 ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
-COPY --chown=nobody:root _build/prod/rel/estore ./
+COPY --chown=nobody:root ../_build/prod/rel/estore ./
 
 USER nobody
 
