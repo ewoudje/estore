@@ -7,8 +7,8 @@
 # rc-service crond start
 # rc-update add crond
 apk add curl
-wget https://raw.githubusercontent.com/ewoudje/estore/refs/heads/main/update.sh
-wget https://raw.githubusercontent.com/ewoudje/estore/refs/heads/main/estore.service
+wget https://raw.githubusercontent.com/ewoudje/estore/refs/heads/main/deployment/update.sh
+wget https://raw.githubusercontent.com/ewoudje/estore/refs/heads/main/deployment/estore.service
 chmod +x update.sh
 chmod +x estore.service
 mv estore.service /etc/init.d/estore

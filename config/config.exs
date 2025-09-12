@@ -58,6 +58,11 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :sentry,
+  dsn: "https://7bea0685834540fd9d8dc3e4a1f4c001@sentry.ewoudje.com/1",
+  environment_name: Mix.env(),
+  traces_sample_rate: 1.0
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{config_env()}.exs"

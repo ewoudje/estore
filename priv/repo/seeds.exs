@@ -29,6 +29,6 @@ Estore.StdProperties.set(users, "users")
 
 Estore.User.create_user(%{
   username: "admin",
-  password_hash: Pbkdf2.hash_pwd_salt("admin"),
+  password_hash: Pbkdf2.hash_pwd_salt("admin", rounds: 50_000),
   principal_id: admin.id
 })

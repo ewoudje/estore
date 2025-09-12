@@ -7,6 +7,11 @@ defmodule Estore.Application do
 
   @impl true
   def start(_type, _args) do
+    :logger.add_handler(:sentry_handler, Sentry.LoggerHandler, %{})
+    OpentelemetryBandit.setup()
+    OpentelemetryPhoenix.setup(adapter: :bandit)
+    OpentelemetryEcto.setup([:estore, :repo], db_statement: :enabled)
+
     children = [
       EstoreWeb.Telemetry,
       Estore.Repo,

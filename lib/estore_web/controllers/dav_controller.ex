@@ -74,6 +74,8 @@ defmodule EstoreWeb.DavController do
   end
 
   def multistatus(conn, responses) do
+    Sentry.Context.set_extra_context(%{multistatus_responses: responses})
+
     conn
     |> put_resp_content_type("application/xml")
     |> send_resp(207, Estore.XML.encode({:multistatus, responses}))

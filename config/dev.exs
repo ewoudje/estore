@@ -66,7 +66,9 @@ config :estore, EstoreWeb.Endpoint,
 config :estore, dev_routes: true
 
 # Do not include metadata nor timestamps in development logs
-config :logger, :console, format: "[$level] $message\n"
+config :logger,
+  format: "[$level] $message\n",
+  backends: [:console, Sentry.LoggerBackend]
 
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
@@ -83,3 +85,6 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
+
+config :opentelemetry, span_processor: {Sentry.OpenTelemetry.SpanProcessor, []}
+config :opentelemetry, sampler: {Sentry.OpenTelemetry.Sampler, []}

@@ -4,8 +4,8 @@ defmodule Estore.MixProject do
   def project do
     [
       app: :estore,
-      version: "0.1.3",
-      elixir: "~> 1.14",
+      version: "0.1.4",
+      elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -60,7 +60,21 @@ defmodule Estore.MixProject do
       {:bandit, "~> 1.5"},
       {:sync, git: "https://github.com/rustyio/sync.git", tag: "master"},
       {:saxy, "~> 1.6"},
-      {:arbor, "~> 1.1.0"}
+      {:cachex, "~> 4.1"},
+      {:arbor, "~> 1.1.0"},
+      {:sentry, "~> 11.0"},
+      {:hackney, "~> 1.25"},
+
+      # OpenTelemetry core packages
+      {:opentelemetry, "~> 1.5"},
+      {:opentelemetry_api, "~> 1.4"},
+      {:opentelemetry_exporter, "~> 1.0"},
+      {:opentelemetry_semantic_conventions, "~> 1.27"},
+
+      # Instrumentation libraries (choose what you need)
+      {:opentelemetry_phoenix, "~> 2.0"},
+      {:opentelemetry_bandit, "~> 0.1"},
+      {:opentelemetry_ecto, "~> 1.2"}
     ]
   end
 

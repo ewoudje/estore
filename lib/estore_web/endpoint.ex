@@ -11,6 +11,8 @@ defmodule EstoreWeb.Endpoint do
     same_site: "Lax"
   ]
 
+  # Idk plug Sentry.PlugCapture
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest
@@ -45,4 +47,5 @@ defmodule EstoreWeb.Endpoint do
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
   plug(EstoreWeb.Router)
+  plug Sentry.PlugContext
 end

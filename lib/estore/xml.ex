@@ -13,10 +13,12 @@ defmodule Estore.XML do
     end)
   end
 
-  def encode(xml, opts \\ %{}) do
+  def encode(ir, opts \\ %{}) do
     :telemetry.span([:xml, :encode], %{opts: opts}, fn ->
+      xml = Estore.XML.IR.ir2xml(ir, opts)
+
       {{name, attributes, content}, {_, namespaces}} =
-        denamespace(Estore.XML.IR.ir2xml(xml, opts), {0, %{}})
+        denamespace(xml, {0, %{}})
 
       attributes = Enum.map(namespaces, fn {k, v} -> {"xmlns:" <> v, k} end)
 
@@ -168,12 +170,8 @@ defmodule Estore.XML do
 
       [] ->
         new_prefix = "ns" <> Integer.to_string(:ets.info(:xml_namespaces, :size) + 1)
-
-        if :ets.lookup(:xml_namespaces, new_prefix) == [] do
-          :ets.insert(:xml_namespaces, {ns, new_prefix})
-        else
-          decide_prefix(ns)
-        end
+        :ets.insert(:xml_namespaces, {ns, new_prefix})
+        new_prefix
     end
   end
 

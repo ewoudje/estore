@@ -4,11 +4,12 @@ defmodule EstoreWeb.BasicAuth do
 
   @impl true
   def init(opts) do
-    opts
+    Cachex.start_link(:auth_cache)
+    %{options: opts}
   end
 
   @impl true
-  def call(conn, options) do
+  def call(conn, %{options: options}) do
     :telemetry.span([:estore, :auth], %{}, fn ->
       {case get_auth_header(conn) do
          {:ok, auth_header} ->
@@ -36,17 +37,28 @@ defmodule EstoreWeb.BasicAuth do
     end
   end
 
-  defp validate_credentials(auth_header, options) do
+  defp validate_credentials(auth_header, option) do
     case String.split(auth_header, " ") do
       ["Basic", credentials] ->
         decoded_credentials = Base.decode64!(credentials)
         [username, password] = String.split(decoded_credentials, ":")
         user = Estore.Repo.get_by(Estore.User, username: username)
 
-        if valid_credentials?(username, password, user) do
-          {:ok, user}
-        else
-          {:error, :invalid_credentials}
+        case get_cached_auth(credentials) do
+          :invalid ->
+            {:error, :invalid_credentials}
+
+          :valid ->
+            {:ok, user}
+
+          :not_cached ->
+            if valid_credentials?(password, user) do
+              cache_auth(credentials, :valid)
+              {:ok, user}
+            else
+              cache_auth(credentials, :invalid)
+              {:error, :invalid_credentials}
+            end
         end
 
       _ ->
@@ -54,7 +66,7 @@ defmodule EstoreWeb.BasicAuth do
     end
   end
 
-  defp valid_credentials?(username, password, user) do
+  defp valid_credentials?(password, user) do
     case user do
       nil ->
         false
@@ -62,5 +74,36 @@ defmodule EstoreWeb.BasicAuth do
       user ->
         Pbkdf2.verify_pass(password, user.password_hash)
     end
+  end
+
+  defp get_cached_auth(credentials) do
+    k = :erlang.phash2(credentials)
+
+    case Cachex.get(:auth_cache, k) do
+      {:ok, nil} ->
+        Sentry.Context.add_breadcrumb(%{
+          message: "cache missed for auth",
+          category: "chache_miss",
+          type: "auth",
+          level: :debug
+        })
+
+        :not_cached
+
+      {:ok, v} ->
+        Sentry.Context.add_breadcrumb(%{
+          message: "cache hit for auth",
+          category: "cache_hit",
+          type: "auth",
+          level: :debug
+        })
+
+        Cachex.expire(:auth_cache, k, :timer.seconds(5))
+        v
+    end
+  end
+
+  defp cache_auth(credentials, v) do
+    Cachex.put(:auth_cache, :erlang.phash2(credentials), v, expire: :timer.seconds(5))
   end
 end
