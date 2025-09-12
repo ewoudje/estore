@@ -51,7 +51,7 @@ COPY lib lib
 
 COPY assets assets
 
-COPY README.md
+COPY README.md README.md
 
 # compile assets
 RUN mix assets.deploy
