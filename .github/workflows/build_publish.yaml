@@ -34,7 +34,6 @@ jobs:
         run: |
           mix compile
           mix assets.deploy
-          mix phx.gen.release --docker
           mix release
       - name: Zip
         working-directory: _build/prod/rel
