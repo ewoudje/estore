@@ -16,6 +16,12 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v4
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - uses: erlef/setup-beam@v1
         with:
           otp-version: 27.2.1
@@ -45,15 +51,9 @@ jobs:
           make_latest: true
           files: |
             _build/prod/rel/estore.zip
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: deployment
+          context: ./deployment
           tags: ghcr.io/ewoudje/estore:latest
