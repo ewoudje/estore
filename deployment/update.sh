@@ -1,4 +1,5 @@
 #!/bin/bash
+# UNTESTED
 
 touch current_version
 
