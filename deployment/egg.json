@@ -14,7 +14,7 @@
   "config": {
     "startup": "{}",
     "logs": "{}",
-    "stop": "^C"
+    "stop": "^Ca"
   },
   "variables": [
     {
