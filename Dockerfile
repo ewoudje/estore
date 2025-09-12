@@ -2,6 +2,7 @@ ARG DEBIAN_VERSION=bullseye-20250203-slim
 ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 FROM ${RUNNER_IMAGE}
 WORKDIR /app
+RUN chown nobody /app
 
 RUN apt-get update -y && \
     apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates \
@@ -16,10 +17,10 @@ ENV LC_ALL=en_US.UTF-8
 ENV MIX_ENV=prod
 
 # Only copy the final release from the build stage
-COPY _build/prod/rel/estore ./
-COPY README.md ./
+COPY --chown=nobody:root _build/prod/rel/estore ./
+COPY --chown=nobody:root README.md ./
 
-RUN chown -R nobody /app
+
 USER nobody
 
 CMD ["/app/bin/server"]
