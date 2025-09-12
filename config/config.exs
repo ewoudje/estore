@@ -60,6 +60,7 @@ config :logger, :console,
 
 config :sentry,
   environment_name: Mix.env(),
+  release: Estore.MixProject.version(),
   traces_sample_rate: 1.0
 
 # Import environment specific config. This must remain at the bottom

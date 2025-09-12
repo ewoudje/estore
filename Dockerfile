@@ -35,6 +35,7 @@ RUN mix local.hex --force && \
 ENV MIX_ENV="prod"
 
 # install mix dependencies
+COPY README.md README.md
 COPY mix.exs mix.lock ./
 RUN mix deps.get --only $MIX_ENV
 RUN mkdir config
@@ -50,8 +51,6 @@ COPY priv priv
 COPY lib lib
 
 COPY assets assets
-
-COPY README.md README.md
 
 # compile assets
 RUN mix assets.deploy
