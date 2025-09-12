@@ -36,3 +36,4 @@ npm-debug.log
 /assets/node_modules/
 recompile.log
 .env
+simplePush.bat
