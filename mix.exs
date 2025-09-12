@@ -4,7 +4,7 @@ defmodule Estore.MixProject do
   def project do
     [
       app: :estore,
-      version: "0.2.0",
+      version: version(),
       elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
@@ -106,5 +106,24 @@ defmodule Estore.MixProject do
         "phx.digest"
       ]
     ]
+  end
+
+  def version() do
+    text = File.read!("README.md")
+    [_, version] = Regex.run(~r/> Current version: (.*)\n/, text)
+    version
+  end
+
+  def set_version(version) do
+    text = File.read!("README.md")
+
+    text =
+      Regex.replace(
+        ~r/> Current version: (.*)\n/,
+        text,
+        "> Current version: " <> version <> "\n"
+      )
+
+    File.write!("README.md", text)
   end
 end
