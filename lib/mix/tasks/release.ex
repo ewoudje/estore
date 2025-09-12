@@ -9,10 +9,10 @@ defmodule Mix.Tasks.NewVersion do
     new_version = Enum.join([l, m, s], ".")
 
     Estore.MixProject.set_version(new_version)
-    Mix.Shell.cmd("git add README.md")
-    Mix.Shell.cmd("git commit -m \"New v#{version}\"")
-    Mix.Shell.cmd("git tag v#{version}")
-    Mix.Shell.cmd("git push")
-    Mix.Shell.cmd("git push origin v#{version}")
+    Mix.Shell.cmd("git add README.md", &:ok)
+    Mix.Shell.cmd("git commit -m \"New v#{version}\"", &:ok)
+    Mix.Shell.cmd("git tag v#{version}", &:ok)
+    Mix.Shell.cmd("git push", &:ok)
+    Mix.Shell.cmd("git push origin v#{version}", &:ok)
   end
 end
