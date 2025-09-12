@@ -32,7 +32,6 @@
 .elixir_ls
 
 # Mix artifacts
-/_build/
 /deps/
 *.ez
 
