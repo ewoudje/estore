@@ -19,6 +19,6 @@ ENV MIX_ENV=prod
 # Only copy the final release from the build stage
 COPY --chown=nobody:root _build/prod/rel/estore ./
 COPY --chown=nobody:root README.md ./
-
+RUN chmod +x /app/bin/server
 
 USER nobody
