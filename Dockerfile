@@ -1,11 +1,10 @@
-ARG DEBIAN_VERSION=bullseye-20250203-slim
-ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
+ARG RUNNER_IMAGE="ubuntu:stable"
 FROM ${RUNNER_IMAGE}
 WORKDIR /app
 RUN chown nobody /app
 
 RUN apt-get update -y && \
-    apt-get install -y libstdc++6 libc6 openssl libncurses5 locales ca-certificates \
+    apt-get install -y libstdc++6 openssl libncurses5 locales ca-certificates \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
 
 # Set the locale
