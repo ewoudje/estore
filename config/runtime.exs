@@ -20,6 +20,10 @@ if System.get_env("PHX_SERVER") do
   config :estore, EstoreWeb.Endpoint, server: true
 end
 
+if System.get_env("SENTRY_DSN") do
+  config :sentry, dsn: System.get_env("SENTRY_DSN")
+end
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
@@ -49,7 +53,7 @@ if config_env() == :prod do
       """
 
   host = System.get_env("PHX_HOST") || "example.com"
-  port = String.to_integer(System.get_env("PORT") || "4000")
+  port = String.to_integer(System.get_env("SERVER_PORT") || "4000")
 
   config :estore, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 

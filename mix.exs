@@ -19,7 +19,15 @@ defmodule Estore.MixProject do
   def application do
     [
       mod: {Estore.Application, []},
-      extra_applications: [:logger, :runtime_tools, :sync]
+      extra_applications: [
+        :logger,
+        :runtime_tools
+        | if Mix.env() == :dev do
+            [:sync]
+          else
+            []
+          end
+      ]
     ]
   end
 

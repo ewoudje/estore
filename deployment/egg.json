@@ -18,10 +18,43 @@
   },
   "variables": [
     {
+      "name": "Domain",
+      "description": "",
+      "env_variable": "PHX_HOST",
+      "default_value": "store.example.com",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:64",
+      "sort": null,
+      "field_type": "text"
+    },
+    {
       "name": "Database",
       "description": "",
       "env_variable": "DATABASE_URL",
       "default_value": "ecto://USER:PASS@HOST/DATABASE",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:256",
+      "sort": null,
+      "field_type": "text"
+    },
+    {
+      "name": "Sentry DSN",
+      "description": "",
+      "env_variable": "SENTRY_DSN",
+      "default_value": "",
+      "user_viewable": true,
+      "user_editable": true,
+      "rules": "required|string|max:256",
+      "sort": null,
+      "field_type": "text"
+    },
+    {
+      "name": "Secret Key",
+      "description": "",
+      "env_variable": "SECRET_KEY_BASE",
+      "default_value": "change_ME_idiot",
       "user_viewable": true,
       "user_editable": true,
       "rules": "required|string|max:256",

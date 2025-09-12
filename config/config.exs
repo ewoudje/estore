@@ -59,7 +59,6 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :sentry,
-  dsn: "https://7bea0685834540fd9d8dc3e4a1f4c001@sentry.ewoudje.com/1",
   environment_name: Mix.env(),
   traces_sample_rate: 1.0
 
