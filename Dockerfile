@@ -1,4 +1,4 @@
-ARG RUNNER_IMAGE="ubuntu:stable"
+ARG RUNNER_IMAGE="ubuntu:24.04"
 FROM ${RUNNER_IMAGE}
 WORKDIR /app
 RUN chown nobody /app
