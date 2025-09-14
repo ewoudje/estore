@@ -102,7 +102,7 @@ defmodule EstoreWeb.BasicAuth do
         v
 
       {:error, e} ->
-        Sentry.capture_exception({:cache_error, e}, stacktrace: __STACKTRACE__)
+        Sentry.capture_exception({:cache_error, e})
         :not_cached
     end
   end
