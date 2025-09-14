@@ -1,6 +1,6 @@
 ARG RUNNER_IMAGE="ubuntu:24.04"
 FROM ${RUNNER_IMAGE}
-RUN adduser -D -h /home/container container
+RUN useradd -D -h /home/container container
 WORKDIR /home/container
 
 RUN apt-get update -y && \
@@ -21,5 +21,4 @@ COPY --chown=container:container README.md ./
 RUN chmod +x /app/bin/server
 
 USER container
-
 CMD ["/app/bin/server"]
