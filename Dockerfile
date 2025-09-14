@@ -18,7 +18,7 @@ ENV MIX_ENV=prod
 # Only copy the final release from the build stage
 COPY --chown=container:container _build/prod/rel/estore ./
 COPY --chown=container:container README.md ./
-RUN chmod +x /app/bin/server
+RUN chmod +x /home/container/bin/server
 
 USER container
-CMD ["/app/bin/server"]
+CMD ["/home/container/bin/server"]
