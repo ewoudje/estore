@@ -1,7 +1,7 @@
 ARG RUNNER_IMAGE="ubuntu:24.04"
 FROM ${RUNNER_IMAGE}
-WORKDIR /app
-RUN chown nobody /app
+RUN adduser -D -h /home/container container
+WORKDIR /home/container
 
 RUN apt-get update -y && \
     apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates \
@@ -16,10 +16,10 @@ ENV LC_ALL=en_US.UTF-8
 ENV MIX_ENV=prod
 
 # Only copy the final release from the build stage
-COPY --chown=nobody:root _build/prod/rel/estore ./
-COPY --chown=nobody:root README.md ./
+COPY --chown=container:container _build/prod/rel/estore ./
+COPY --chown=container:container README.md ./
 RUN chmod +x /app/bin/server
 
-USER nobody
+USER container
 
 CMD ["/app/bin/server"]
