@@ -2,7 +2,7 @@ import Config
 
 # Configure your database
 config :estore, Estore.Repo,
-  username: "postgres",
+  username: "dev",
   password: "devvin",
   hostname: "localhost",
   database: "estore_dev",

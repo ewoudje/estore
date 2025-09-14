@@ -22,11 +22,6 @@ defmodule Estore.MixProject do
       extra_applications: [
         :logger,
         :runtime_tools
-        | if Mix.env() == :dev do
-            [:sync]
-          else
-            []
-          end
       ]
     ]
   end
@@ -43,7 +38,7 @@ defmodule Estore.MixProject do
       {:pbkdf2_elixir, "~> 2.0"},
       {:phoenix, "~> 1.7.19"},
       {:phoenix_ecto, "~> 4.5"},
-      {:ecto_sql, "~> 3.10"},
+      {:ecto_sql, "~> 3.13.2"},
       {:postgrex, ">= 0.0.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_reload, "~> 1.2", only: :dev},
@@ -66,7 +61,7 @@ defmodule Estore.MixProject do
       {:gettext, "~> 0.26"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:sync, git: "https://github.com/rustyio/sync.git", tag: "master"},
+      #      {:sync, git: "https://github.com/rustyio/sync.git", tag: "master", only: :dev},
       {:saxy, "~> 1.6"},
       {:cachex, "~> 4.1"},
       {:arbor, "~> 1.1.0"},

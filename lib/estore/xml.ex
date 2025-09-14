@@ -50,7 +50,7 @@ defmodule Estore.XML do
     namespaces =
       [
         attributes
-        |> Enum.filter(fn {k, _} -> String.starts_with?(k, "xmlns") end)
+        |> Enum.filter(fn {k, _} -> String.starts_with?(k, "xmlns:") end)
         |> Enum.map(fn {k, v} ->
           {String.replace(k, "xmlns:", ""), v}
         end)
@@ -61,7 +61,7 @@ defmodule Estore.XML do
      {
        [
          {
-           ns_name(name, namespaces),
+           ns_name(name, namespaces, attributes),
            Enum.filter(attributes, fn {k, _} -> !String.starts_with?(k, "xmlns") end),
            []
          }
@@ -111,12 +111,13 @@ defmodule Estore.XML do
     {:ok, {[{name, attributes, [{:cdata, cdata} | contents]} | lst], namespaces}}
   end
 
-  defp ns_name(name, namespaces) do
+  defp ns_name(name, namespaces, attributes) do
     if String.contains?(name, ":") do
       [ns, name] = String.split(name, ":", parts: 2)
       {ns_name2(ns, namespaces), name}
     else
-      {"", name}
+      {"xmlns", ns} = Enum.find(attributes, "", fn {k, _} -> k == "xmlns" end)
+      {ns, name}
     end
   end
 
