@@ -116,7 +116,7 @@ defmodule Estore.XML do
       [ns, name] = String.split(name, ":", parts: 2)
       {ns_name2(ns, namespaces), name}
     else
-      {"xmlns", ns} = Enum.find(attributes, "", fn {k, _} -> k == "xmlns" end)
+      {"xmlns", ns} = Enum.find(attributes, {"xmlns", ""}, fn {k, _} -> k == "xmlns" end)
       {ns, name}
     end
   end
