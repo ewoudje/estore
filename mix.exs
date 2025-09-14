@@ -105,7 +105,7 @@ defmodule Estore.MixProject do
 
   def version() do
     text = File.read!("README.md")
-    [_, version] = Regex.run(~r/> Current version: (.*)\n/, text)
+    [_, version, _] = Regex.run(~r/> Current version: (.*)?(\r)\n/, text)
     version
   end
 
