@@ -4,7 +4,7 @@ defmodule EstoreWeb.BasicAuth do
 
   @impl true
   def init(opts) do
-    Cachex.start_link(:auth_cache)
+    Cachex.start(:auth_cache)
     %{options: opts}
   end
 
@@ -101,8 +101,8 @@ defmodule EstoreWeb.BasicAuth do
         Cachex.expire(:auth_cache, k, :timer.seconds(5))
         v
 
-      {:error, e} ->
-        Sentry.capture_exception({:cache_error, e})
+      {:error, _} ->
+        Sentry.capture_message("Cache error")
         :not_cached
     end
   end

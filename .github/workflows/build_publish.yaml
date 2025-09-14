@@ -41,6 +41,7 @@ jobs:
         run: |
           mix compile
           mix assets.deploy
+          mix sentry.package_source_code
           mix release
       - name: Zip
         working-directory: _build/prod/rel
