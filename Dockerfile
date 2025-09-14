@@ -2,7 +2,7 @@ ARG RUNNER_IMAGE="ubuntu:24.04"
 FROM ${RUNNER_IMAGE}
 
 WORKDIR /app
-RUN useradd --home /home/container container
+RUN useradd -m -d /home/container -s /bin/bash container
 RUN chown container /app
 
 RUN apt-get update -y && \
