@@ -100,6 +100,10 @@ defmodule EstoreWeb.BasicAuth do
 
         Cachex.expire(:auth_cache, k, :timer.seconds(5))
         v
+
+      {:error, e} ->
+        Sentry.capture_exception({:cache_error, e}, stacktrace: __STACKTRACE__)
+        :not_cached
     end
   end
 
