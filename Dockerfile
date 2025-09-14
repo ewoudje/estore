@@ -1,7 +1,9 @@
 ARG RUNNER_IMAGE="ubuntu:24.04"
 FROM ${RUNNER_IMAGE}
-RUN useradd -D -h /home/container container
-WORKDIR /home/container
+
+WORKDIR /app
+RUN useradd --home /home/container container
+RUN chown container /app
 
 RUN apt-get update -y && \
     apt-get install -y libstdc++6 openssl libncurses6 locales ca-certificates \
@@ -15,10 +17,15 @@ ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 ENV MIX_ENV=prod
 
-# Only copy the final release from the build stage
-COPY --chown=container:container _build/prod/rel/estore ./
-COPY --chown=container:container README.md ./
-RUN chmod +x /home/container/bin/server
 
+
+
+# Only copy the final release from the build stage
+COPY --chown=container:root _build/prod/rel/estore ./
+RUN chmod +x /app/bin/server
+
+WORKDIR /home/container
+COPY --chown=container:root README.md ./
 USER container
-CMD ["/home/container/bin/server"]
+
+CMD ["/app/bin/server"]
