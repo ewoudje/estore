@@ -15,6 +15,7 @@ defmodule Estore.Application do
     children = [
       EstoreWeb.Telemetry,
       Estore.Repo,
+      EstoreWeb.RequestBodyLogging,
       {DNSCluster, query: Application.get_env(:estore, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Estore.PubSub},
       # Start the Finch HTTP client for sending emails
