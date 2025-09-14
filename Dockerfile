@@ -17,15 +17,14 @@ ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 ENV MIX_ENV=prod
 
-
-
-
 # Only copy the final release from the build stage
 COPY --chown=container:root _build/prod/rel/estore ./
 RUN chmod +x /app/bin/server
 
 WORKDIR /home/container
 COPY --chown=container:root README.md ./
+COPY deployment/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 USER container
-
-CMD ["/app/bin/server"]
+ENV USER=container HOME=/home/container
+CMD ["/bin/bash", "/entrypoint.sh"]
