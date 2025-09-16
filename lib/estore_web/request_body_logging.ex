@@ -29,7 +29,7 @@ defmodule EstoreWeb.RequestBodyLogging do
         n_idx
       end
 
-    File.write!("request#{idx}_body.xml", "<!-- url=\"" <> url <> "\"--!>" <> urlbody)
+    File.write!("request#{idx}_body.xml", "<!-- url=\"" <> url <> "\"--!>\n" <> body)
 
     {:noreply, {n_idx, max}}
   end
