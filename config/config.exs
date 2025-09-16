@@ -58,6 +58,9 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
+config :opentelemetry, span_processor: {Sentry.OpenTelemetry.SpanProcessor, []}
+config :opentelemetry, sampler: {Sentry.OpenTelemetry.Sampler, []}
+
 config :sentry,
   environment_name: Mix.env(),
   release: Estore.MixProject.version(),
