@@ -46,22 +46,26 @@ defmodule Estore.XML do
   end
 
   @impl true
-  def handle_event(:start_element, {name, attributes}, {lst, namespaces}) do
-    namespaces =
-      [
-        attributes
-        |> Enum.filter(fn {k, _} -> String.starts_with?(k, "xmlns:") end)
-        |> Enum.map(fn {k, v} ->
-          {String.replace(k, "xmlns:", ""), v}
-        end)
-        | namespaces
-      ]
+  def handle_event(
+        :start_element,
+        {name, attributes},
+        {lst, namespaces}
+      ) do
+    new_namespaces =
+      attributes
+      |> Enum.filter(fn {k, _} -> String.starts_with?(k, "xmlns:") end)
+      |> Enum.map(fn {k, v} ->
+        {String.replace(k, "xmlns:", ""), v}
+      end)
+
+    {"xmlns", ns} = Enum.find(attributes, {"xmlns", nil}, fn {k, _} -> k == "xmlns" end)
+    namespaces = [{ns, new_namespaces} | namespaces]
 
     {:ok,
      {
        [
          {
-           ns_name(name, namespaces, attributes),
+           ns_name(name, namespaces),
            Enum.filter(attributes, fn {k, _} -> !String.starts_with?(k, "xmlns") end),
            []
          }
@@ -111,18 +115,17 @@ defmodule Estore.XML do
     {:ok, {[{name, attributes, [{:cdata, cdata} | contents]} | lst], namespaces}}
   end
 
-  defp ns_name(name, namespaces, attributes) do
+  defp ns_name(name, namespaces) do
     if String.contains?(name, ":") do
       [ns, name] = String.split(name, ":", parts: 2)
       {ns_name2(ns, namespaces), name}
     else
-      {"xmlns", ns} = Enum.find(attributes, {"xmlns", ""}, fn {k, _} -> k == "xmlns" end)
-      {ns, name}
+      {default_namespace(namespaces), name}
     end
   end
 
-  defp ns_name2(ns_name, [head | tail]) do
-    found = List.keyfind(head, ns_name, 0)
+  defp ns_name2(ns_name, [{_, lst} | tail]) do
+    found = List.keyfind(lst, ns_name, 0)
 
     if found do
       found |> elem(1)
@@ -132,6 +135,18 @@ defmodule Estore.XML do
   end
 
   defp ns_name2(ns_name, []), do: raise("No namespace found for #{ns_name}")
+
+  defp default_namespace([{default, _} | tail]) do
+    if default do
+      default
+    else
+      default_namespace(tail)
+    end
+  end
+
+  defp default_namespace([]) do
+    ""
+  end
 
   defp denamespace({{ns, name}, attributes, content}, {idx, namespaces} = nstuple)
        when is_list(content) and is_map_key(namespaces, ns) do

@@ -2,12 +2,10 @@ defmodule EstoreWeb.RequestBodyLogging do
   use GenServer
 
   def start_link(opts) do
-    if System.get_env("REQUEST_BODY_LOGGING") do
-      max = String.to_integer(System.get_env("REQUEST_BODY_LOGGING"))
+    max = String.to_integer(System.get_env("REQUEST_BODY_LOGGING"))
 
-      if max > 0 do
-        GenServer.start_link(__MODULE__, {0, max}, name: __MODULE__)
-      end
+    if max > 0 do
+      GenServer.start_link(__MODULE__, {0, max}, name: __MODULE__)
     end
   end
 

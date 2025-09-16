@@ -15,7 +15,6 @@ defmodule Estore.Application do
     children = [
       EstoreWeb.Telemetry,
       Estore.Repo,
-      EstoreWeb.RequestBodyLogging,
       {DNSCluster, query: Application.get_env(:estore, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Estore.PubSub},
       # Start the Finch HTTP client for sending emails
@@ -25,6 +24,10 @@ defmodule Estore.Application do
       # Start to serve requests, typically the last entry
       EstoreWeb.Endpoint
     ]
+
+    if System.get_env("REQUEST_BODY_LOGGING") do
+      children = [EstoreWeb.RequestBodyLogging | children]
+    end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
