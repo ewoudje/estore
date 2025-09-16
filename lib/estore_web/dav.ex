@@ -99,7 +99,7 @@ defmodule EstoreWeb.Dav do
       # TODO if not xml Conn.send_resp(conn, 415, "Unsupported Media Type")
 
       {:ok, body, conn} = Conn.read_body(conn)
-      EstoreWeb.RequestBodyLogging.request_body(body)
+      EstoreWeb.RequestBodyLogging.request_body(body, conn)
 
       xml = Estore.XML.decode(body)
 

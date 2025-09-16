@@ -9,8 +9,8 @@ defmodule EstoreWeb.RequestBodyLogging do
     end
   end
 
-  def request_body(body) do
-    GenServer.cast(__MODULE__, {:body, body})
+  def request_body(body, conn) do
+    GenServer.cast(__MODULE__, {:body, body, Plug.Conn.request_url(conn)})
   end
 
   @impl true
@@ -19,14 +19,17 @@ defmodule EstoreWeb.RequestBodyLogging do
   end
 
   @impl true
-  def handle_cast({:body, body}, {idx, max}) do
+  def handle_cast({:body, body, url}, {idx, max}) do
     n_idx = idx + 1
 
-    if n_idx >= max do
-      n_idx = 0
-    end
+    n_idx =
+      if n_idx >= max do
+        n_idx = 0
+      else
+        n_idx
+      end
 
-    File.write!("request#{idx}_body.xml", body)
+    File.write!("request#{idx}_body.xml", "<!-- url=\"" <> url <> "\"--!>" <> urlbody)
 
     {:noreply, {n_idx, max}}
   end

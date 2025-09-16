@@ -25,9 +25,12 @@ defmodule Estore.Application do
       EstoreWeb.Endpoint
     ]
 
-    if System.get_env("REQUEST_BODY_LOGGING") do
-      children = [EstoreWeb.RequestBodyLogging | children]
-    end
+    children =
+      if System.get_env("REQUEST_BODY_LOGGING") && System.get_env("REQUEST_BODY_LOGGING") != "0" do
+        [EstoreWeb.RequestBodyLogging | children]
+      else
+        children
+      end
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
