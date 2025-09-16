@@ -3,6 +3,7 @@ defmodule EstoreWeb.OptionsController do
 
   def options(conn, input) do
     conn
+    |> Plug.Conn.put_resp_header("DAV", "1, calendar-access, access-control")
     |> Plug.Conn.put_resp_header(
       "allow",
       "OPTIONS, PROPFIND, PROPPATCH, GET, HEAD, POST, DELETE, PUT, COPY, MOVE, MKCOL, REPORT"
