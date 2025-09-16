@@ -39,7 +39,9 @@ defmodule Estore.XML do
 
     :ets.insert_new(
       :xml_namespaces,
-      Enum.flat_map(namespaces, fn lst -> Enum.map(lst, &{&1 |> elem(1), &1 |> elem(0)}) end)
+      Enum.flat_map(namespaces, fn {_, lst} ->
+        Enum.map(lst, &{&1 |> elem(1), &1 |> elem(0)})
+      end)
     )
 
     {:ok, result}
