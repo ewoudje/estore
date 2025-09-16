@@ -20,7 +20,7 @@ defmodule EstoreWeb.Dav do
         options
       )
       when method in @methods do
-    conn = Plug.Conn.put_resp_header(conn, "DAV", "1, calendar-access")
+    conn = Plug.Conn.put_resp_header(conn, "DAV", "1, calendar-access, access-control")
 
     :telemetry.span([:estore, :dav], %{method: method}, fn ->
       {case method do
