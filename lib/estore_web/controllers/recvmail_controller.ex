@@ -33,7 +33,7 @@ defmodule EstoreWeb.RecieveMailController do
     mails =
       Estore.Repo.preload(user, :principal)
       |> Estore.Resource.children()
-      |> Ecto.Query.where(name: "mails")
+      |> Ecto.Query.where([], name: "mails")
       |> Estore.Repo.one()
 
     resource =
