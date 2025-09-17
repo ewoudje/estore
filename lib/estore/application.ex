@@ -19,6 +19,7 @@ defmodule Estore.Application do
       {Phoenix.PubSub, name: Estore.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Estore.Finch},
+      Estore.POP3Server,
       # Start a worker by calling: Estore.Worker.start_link(arg)
       # {Estore.Worker, arg},
       # Start to serve requests, typically the last entry
