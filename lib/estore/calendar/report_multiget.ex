@@ -6,7 +6,7 @@ defmodule Estore.Report.Multiget do
   def root(), do: {@ns, "calendar-multiget"}
 
   @impl true
-  def report(resource, {{@ns, "calendar-multiget"}, _, contents}) do
+  def report(resource, {{@ns, "calendar-multiget"}, _, contents}, _) do
     hrefs =
       Enum.filter(contents, fn
         {:href, _} -> true
@@ -22,8 +22,9 @@ defmodule Estore.Report.Multiget do
     procure(resource, hrefs, Enum.map(properties, fn {e, _, _} -> e end))
   end
 
-  defp procure(%{collection: false, fqn: fqn} = resource, [href], properties) when href == fqn,
-    do: Estore.Propfind.propfind(resource, properties)
+  defp procure(%{collection: false, fqn: fqn} = resource, [{:href, href}], properties)
+       when href == fqn,
+       do: Estore.Propfind.propfind(resource, properties)
 
   defp procure(%{fqn: fqn} = resource, hrefs, properties) do
     if Enum.any?(hrefs, fn

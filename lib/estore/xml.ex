@@ -7,13 +7,23 @@ defmodule Estore.XML do
   @type t() :: {element_name(), attributes(), [t()]} | String.t() | {:cdata, String.t()}
 
   def decode(str, opts \\ %{}) do
+    if :ets.whereis(:xml_namespaces) == :undefined do
+      :ets.new(:xml_namespaces, [:set, :public, :named_table])
+    end
+
     :telemetry.span([:xml, :decode], %{opts: opts}, fn ->
-      {:ok, xml} = Saxy.parse_string(str, __MODULE__, nil)
-      {Estore.XML.IR.xml2ir(xml, opts), %{}}
+      case Saxy.parse_string(str, __MODULE__, nil) do
+        {:ok, xml} -> {{:ok, Estore.XML.IR.xml2ir(xml, opts)}, %{}}
+        {:error, e} -> {{:error, e}, %{error: e}}
+      end
     end)
   end
 
   def encode(ir, opts \\ %{}) do
+    if :ets.whereis(:xml_namespaces) == :undefined do
+      :ets.new(:xml_namespaces, [:set, :public, :named_table])
+    end
+
     :telemetry.span([:xml, :encode], %{opts: opts}, fn ->
       xml = Estore.XML.IR.ir2xml(ir, opts)
 
@@ -33,10 +43,6 @@ defmodule Estore.XML do
 
   @impl true
   def handle_event(:end_document, _data, {[result], namespaces}) do
-    if :ets.whereis(:xml_namespaces) == :undefined do
-      :ets.new(:xml_namespaces, [:set, :public, :named_table])
-    end
-
     :ets.insert_new(
       :xml_namespaces,
       Enum.flat_map(namespaces, fn {_, lst} ->

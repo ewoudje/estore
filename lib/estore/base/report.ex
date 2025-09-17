@@ -1,5 +1,6 @@
 defmodule Estore.Report do
-  @callback report(resource :: Estore.Resource.t(), contents :: any()) :: any()
+  @callback report(resource :: Estore.Resource.t(), contents :: any(), depth :: Integer.t()) ::
+              any()
   @callback root() :: {String.t(), String.t()}
 
   defmacro __using__(opts) do
@@ -18,6 +19,6 @@ defmodule Estore.Report do
   end
 
   def get_supported_reports(resource) do
-    [Estore.Report.ExpandProperties, Estore.Report.Multiget]
+    [Estore.Report.ExpandProperties, Estore.Report.Multiget, Estore.Report.CalQuery]
   end
 end

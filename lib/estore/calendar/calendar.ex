@@ -3,12 +3,6 @@ defmodule Estore.Calendar do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @calendar_start [
-    "BEGIN:VCALENDAR",
-    "VERSION:2.0",
-    "PRODID:-//Estore//NONSGML v1.0//EN"
-  ]
-
   @ns "urn:ietf:params:xml:ns:caldav"
 
   @primary_key {:id, Ecto.UUID, autogenerate: false}
@@ -124,7 +118,6 @@ defmodule Estore.Calendar do
 
   defp _read(calendar) do
     Enum.join(calendar.entries, "\r\n")
-    # Enum.join(_read(calendar, @calendar_start) ++ ["END:VCALENDAR"], "\r\n")
   end
 
   defp _read(calendar, start) do

@@ -5,7 +5,7 @@ defmodule Estore.Report.ExpandProperties do
   def root(), do: {"DAV:", "expand-property"}
 
   @impl true
-  def report(resource, {{"DAV:", "expand-property"}, _, contents}) do
+  def report(resource, {{"DAV:", "expand-property"}, _, contents}, _) do
     properties(resource, contents)
   end
 

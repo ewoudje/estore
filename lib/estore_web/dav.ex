@@ -81,6 +81,7 @@ defmodule EstoreWeb.Dav do
          "REPORT" ->
            conn
            |> get_xml()
+           |> get_depth()
            |> get_resource()
            |> if_set_send()
 
@@ -101,9 +102,10 @@ defmodule EstoreWeb.Dav do
       {:ok, body, conn} = Conn.read_body(conn)
       EstoreWeb.RequestBodyLogging.request_body(body, conn)
 
-      xml = Estore.XML.decode(body)
-
-      %{conn | body_params: xml, params: Map.put(conn.params, :xml, xml)}
+      case Estore.XML.decode(body) do
+        {:ok, xml} -> %{conn | body_params: xml, params: Map.put(conn.params, :xml, xml)}
+        {:error, e} -> Conn.resp(conn, 400, "XML Parsing failed: #{inspect(e.reason)}")
+      end
     else
       Conn.resp(conn, 400, "Bad Request: Expected a Content-Type")
     end

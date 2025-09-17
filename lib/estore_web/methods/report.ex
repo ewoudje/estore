@@ -1,7 +1,7 @@
 defmodule EstoreWeb.ReportMethod do
   use EstoreWeb, :controller
 
-  def report(conn, %{resource: resource, xml: xml}) do
+  def report(conn, %{resource: resource, xml: xml, depth: depth}) do
     {{ns, name}, _, _} = xml
 
     Sentry.Context.set_tags_context(%{report_type: "#{ns}:#{name}"})
@@ -13,7 +13,7 @@ defmodule EstoreWeb.ReportMethod do
       report ->
         EstoreWeb.DavController.multistatus(
           conn,
-          report.report(resource, xml)
+          report.report(resource, xml, depth)
         )
     end
   end
