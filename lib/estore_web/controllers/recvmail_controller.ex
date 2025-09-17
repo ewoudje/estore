@@ -13,7 +13,7 @@ defmodule EstoreWeb.RecieveMailController do
     my_signature =
       :crypto.mac(:hmac, :sha256, Application.fetch_env!(:estore, :mail_key), timestamp <> token)
 
-    if my_signature != Base.decode16!(signature) do
+    if my_signature != Base.decode16!(signature, case: :mixed) do
       Plug.Conn.send_resp(conn, 401, "Unauthorized")
     else
       store_mail(
