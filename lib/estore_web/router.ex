@@ -35,7 +35,7 @@ defmodule EstoreWeb.Router do
 
   forward("/.well-known/caldav", Plug.Redirect, to: "/")
 
-  match(:post, "/mail/mime", EstoreWeb.RecieveMailController)
+  match(:post, "/mail/mime", EstoreWeb.RecieveMailController, :post)
   match(:options, "/*path", EstoreWeb.OptionsController, :options)
 
   scope "/", EstoreWeb do
