@@ -30,11 +30,7 @@ defmodule EstoreWeb.RecieveMailController do
   end
 
   defp store_mail(user, name, sender, subject, recipient, mime) do
-    mails =
-      Estore.Repo.preload(user, :principal)
-      |> Estore.Resource.children()
-      |> Ecto.Query.where([], name: "mails")
-      |> Estore.Repo.one()
+    mails = Estore.Resource.get_by_path(Estore.Repo.preload(user, :principal).fqn <> "/mails")
 
     resource =
       Estore.Resource.create(
