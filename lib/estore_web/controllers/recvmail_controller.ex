@@ -12,21 +12,29 @@ defmodule EstoreWeb.RecieveMailController do
       }) do
     my_signature =
       :crypto.mac(:hmac, :sha256, Application.fetch_env!(:estore, :mail_key), timestamp <> token)
-      |> Base.encode16()
 
-    IO.inspect(my_signature)
-    IO.inspect(signature)
+    if my_signature != Base.decode16!(signature) do
+      Plug.Conn.send_resp(conn, 401, "Unauthorized")
+    else
+      store_mail(
+        Estore.Repo.get_by(Estore.User, username: "admin"),
+        signature,
+        sender,
+        subject,
+        recipient,
+        mime
+      )
 
-    # if my_signature != signature do
-    #  Plug.Conn.send_resp(conn, 401, "Unauthorized")
-    # else
-    store_mail(conn.params.user, signature, sender, subject, recipient, mime)
-    Plug.Conn.send_resp(conn, 200, "Received")
-    # end
+      Plug.Conn.send_resp(conn, 200, "Received")
+    end
   end
 
   defp store_mail(user, name, sender, subject, recipient, mime) do
-    mails = user.resource |> Estore.Resource.children() |> Estore.Repo.one()
+    mails =
+      user.resource
+      |> Estore.Resource.children()
+      |> Ecto.Query.where(name: "mails")
+      |> Estore.Repo.one()
 
     resource =
       Estore.Resource.create(

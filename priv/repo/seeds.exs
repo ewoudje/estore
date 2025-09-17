@@ -18,6 +18,8 @@ root = Estore.Resource.create_root()
 users = Estore.Resource.create(root, "users", true)
 admin = Estore.Resource.create(users, "admin", true, source: Estore.User.source())
 
+mails = Estore.Resource.create(admin, "mails", true)
+
 calendar =
   Estore.Resource.create(admin, "calendar", true, source: Estore.Calendar.source(), owner: admin)
 
