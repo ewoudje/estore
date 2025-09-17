@@ -6,4 +6,4 @@ To start your Phoenix server:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-> Current version: 0.2.67
+> Current version: 0.2.68
