@@ -14,8 +14,7 @@ defmodule EstoreWeb.Dav do
   @impl true
   def call(
         %{
-          method: method,
-          body_params: %Plug.Conn.Unfetched{}
+          method: method
         } = conn,
         options
       )
