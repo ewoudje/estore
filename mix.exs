@@ -61,12 +61,12 @@ defmodule Estore.MixProject do
       {:gettext, "~> 0.26"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      #      {:sync, git: "https://github.com/rustyio/sync.git", tag: "master", only: :dev},
       {:saxy, "~> 1.6"},
       {:cachex, "~> 4.1"},
       {:arbor, "~> 1.1.0"},
       {:sentry, "~> 11.0"},
       {:hackney, "~> 1.25"},
+      {:mail, "~> 0.4"},
 
       # OpenTelemetry core packages
       {:opentelemetry, "~> 1.5"},
