@@ -71,7 +71,7 @@ if config_env() == :prod do
 
   config :estore,
     mail_key: System.get_env("MAILGUN_SIGNING_KEY"),
-    pop3_port: System.get_env("POP3_PORT")
+    pop3_port: String.to_integer(System.get_env("POP3_PORT"))
 
   # ## SSL Support
   #
