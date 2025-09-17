@@ -38,8 +38,7 @@ if config_env() == :prod do
     # ssl: true,
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
-    socket_options: maybe_ipv6,
-    mail_key: System.get_env("MAILGUN_SIGNING_KEY")
+    socket_options: maybe_ipv6
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
@@ -69,6 +68,9 @@ if config_env() == :prod do
       port: port
     ],
     secret_key_base: secret_key_base
+
+  config :estore,
+    mail_key: System.get_env("MAILGUN_SIGNING_KEY")
 
   # ## SSL Support
   #
