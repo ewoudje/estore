@@ -34,9 +34,12 @@ defmodule EstoreWeb.Router do
   end
 
   forward("/.well-known/caldav", Plug.Redirect, to: "/")
-
   match(:post, "/mail/mime", EstoreWeb.RecieveMailController, :post)
   match(:options, "/*path", EstoreWeb.OptionsController, :options)
+
+  scope "/view" do
+    pipe_through(:browser)
+  end
 
   scope "/", EstoreWeb do
     pipe_through(:dav)
