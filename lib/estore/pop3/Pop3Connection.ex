@@ -112,9 +112,9 @@ defmodule Estore.POP3Connection do
   defp command(socket, "RETR", n, :trns, %{mails: mails} = mem) do
     n = String.to_integer(n)
     mail = Enum.at(mails, n)
-    {:ok, content} = String.split(Estore.Source.read(mail), "\r\n")
+    {:ok, content} = Estore.Source.read(mail)
     ok(socket, "listing message")
-    list(socket, content)
+    list(socket, String.split(content, "\r\n"))
     {:ok, :trns, mem}
   end
 
