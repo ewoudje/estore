@@ -53,7 +53,7 @@ defmodule Estore.Resource do
     Estore.Repo.get_by(Estore.Resource, fqn: get_fqn(path))
   end
 
-  def get_family(resource, depth \\ "1") do
+  def get_family(resource, depth \\ :one) do
     [
       resource
       | case depth do

@@ -10,15 +10,34 @@ defmodule EstoreWeb.RecieveMailController do
         "timestamp" => timestamp,
         "token" => token
       }) do
-    mySignature =
+    my_signature =
       :crypto.mac(:hmac, :sha256, Application.fetch_env!(:estore, :mail_key), timestamp <> token)
       |> Base.encode16()
 
-    if mySignature != signature do
-      Conn.send_resp(401, "Unauthorized")
+    if my_signature != signature do
+      Plug.Conn.send_resp(conn, 401, "Unauthorized")
     else
-      IO.inspect(subject)
-      Conn.send_resp(200, "Received")
+      store_mail(conn.params.user, signature, sender, subject, recipient, mime)
+      Plug.Conn.send_resp(conn, 200, "Received")
     end
+  end
+
+  defp store_mail(user, name, sender, subject, recipient, mime) do
+    mails = user.resource |> Estore.Resource.children() |> Estore.Repo.one()
+
+    resource =
+      Estore.Resource.create(
+        mails,
+        name,
+        false,
+        source: Estore.File.source(),
+        owner_id: user.principal_id
+      )
+
+    Estore.StdProperties.set(resource, name)
+    Estore.DeadProperty.set(resource, {{"https://ewoudje.com/ns", "mail-subject"}, [], [subject]})
+
+    {:ok, state} = Estore.Source.write(resource, mime)
+    Estore.Source.finish_write(resource, state)
   end
 end
