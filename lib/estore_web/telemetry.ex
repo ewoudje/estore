@@ -73,6 +73,7 @@ defmodule EstoreWeb.Telemetry do
         description:
           "The time the connection spent waiting before being checked out for the query"
       ),
+      # Other metrics
       summary("estore.dav.stop.duration",
         unit: {:native, :millisecond},
         description: "Time spent in the dav.ex plug"
@@ -92,6 +93,10 @@ defmodule EstoreWeb.Telemetry do
       ),
       summary("dav.propfind.stop.duration",
         unit: {:native, :millisecond}
+      ),
+      summary("pop3.handle_line.stop.duration",
+        unit: {:native, :millisecond},
+        description: "Time spent handling a message"
       ),
 
       # VM Metrics

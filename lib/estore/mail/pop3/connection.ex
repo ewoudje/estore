@@ -17,16 +17,32 @@ defmodule Estore.POP3Connection do
   def handle_info({:tcp, socket, msg}, {state, mem}) do
     msg = String.trim(msg)
 
-    case (if String.contains?(msg, " ") do
-            [cmd, param] = String.split(msg, " ", parts: 2, trim: true)
-            command(socket, String.upcase(cmd), param, state, mem)
-          else
-            command(socket, String.upcase(msg), nil, state, mem)
-          end) do
-      :quit -> {:stop, :normal, {state, mem}}
-      {:ok, state, mem} -> {:noreply, {state, mem}}
-      {:error, e} -> {:stop, e, {state, mem}}
-    end
+    Sentry.Context.add_breadcrumb(%{
+      category: "pop3.msg_recv",
+      data: msg,
+      level: :debug
+    })
+
+    :telemetry.span(
+      [:pop3, :handle_line],
+      %{
+        msg: msg,
+        state: state,
+        mem: mem
+      },
+      fn ->
+        case (if String.contains?(msg, " ") do
+                [cmd, param] = String.split(msg, " ", parts: 2, trim: true)
+                command(socket, String.upcase(cmd), param, state, mem)
+              else
+                command(socket, String.upcase(msg), nil, state, mem)
+              end) do
+          :quit -> {{:stop, :normal, {state, mem}}, %{stop: "Normal"}}
+          {:ok, state, mem} -> {{:noreply, {state, mem}}, %{new_state: state, new_mem: mem}}
+          {:error, e} -> {{:stop, e, {state, mem}}, %{error: e}}
+        end
+      end
+    )
   end
 
   def handle_info({:tcp_closed, socket}, state) do
@@ -56,7 +72,6 @@ defmodule Estore.POP3Connection do
 
         mails = Estore.Mails.get_from_user(user)
         all_mails = Estore.Mails.all_mails(mails)
-        IO.inspect(all_mails)
         {:ok, :trns, %{user: user, mails: all_mails}}
 
       {:error, _} ->
@@ -132,6 +147,12 @@ defmodule Estore.POP3Connection do
   end
 
   defp list(socket, lst) do
+    Sentry.Context.add_breadcrumb(%{
+      category: "pop3.send.list",
+      data: lst,
+      level: :debug
+    })
+
     for e <- lst do
       :gen_tcp.send(socket, e <> "\r\n")
     end
@@ -140,6 +161,12 @@ defmodule Estore.POP3Connection do
   end
 
   defp ok(socket, msg \\ nil) do
+    Sentry.Context.add_breadcrumb(%{
+      category: "pop3.send.ok",
+      data: msg,
+      level: :debug
+    })
+
     if msg do
       :gen_tcp.send(socket, "+OK " <> msg <> "\r\n")
     else
@@ -148,6 +175,12 @@ defmodule Estore.POP3Connection do
   end
 
   defp err(socket, msg \\ nil) do
+    Sentry.Context.add_breadcrumb(%{
+      category: "pop3.send.err",
+      data: msg,
+      level: :debug
+    })
+
     if msg do
       :gen_tcp.send(socket, "-ERR " <> msg <> "\r\n")
     else
