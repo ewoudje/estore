@@ -13,12 +13,13 @@
 Estore.Source.new(Estore.File)
 Estore.Source.new(Estore.Calendar)
 Estore.Source.new(Estore.User)
+Estore.Source.new(Estore.Mails)
 
 root = Estore.Resource.create_root()
 users = Estore.Resource.create(root, "users", true)
 admin = Estore.Resource.create(users, "admin", true, source: Estore.User.source())
 
-mails = Estore.Resource.create(admin, "mails", true)
+mails = Estore.Resource.create(admin, "mails", true, source: Estore.Mails.source(), owner: admin)
 
 calendar =
   Estore.Resource.create(admin, "calendar", true, source: Estore.Calendar.source(), owner: admin)

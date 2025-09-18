@@ -2,6 +2,7 @@ defmodule Estore.Source do
   use Ecto.Schema
   import Ecto.Changeset
 
+  @type t() :: {atom(), any}
   @callback new(resource :: Estore.Resource.t()) :: :ok
   @callback read(data :: any, resource :: Estore.Resource.t()) ::
               {:ok, binary()} | :unsupported | :not_found
@@ -17,6 +18,7 @@ defmodule Estore.Source do
               state :: any
             ) :: :ok | {:error, any}
   @callback extensions(data :: any) :: [atom()]
+  @callback child_source(data :: any) :: Estore.Source.t()
 
   schema "sources" do
     field(:type, :string)
@@ -91,6 +93,10 @@ defmodule Estore.Source do
     end
   end
 
+  def child_source(%Estore.Source{type: type, data: data}) do
+    String.to_existing_atom(type).child_source(data)
+  end
+
   defp get_source(resource) do
     case Estore.Repo.preload(resource, :source) do
       %Estore.Resource{source: nil} ->
@@ -106,6 +112,10 @@ defmodule Estore.Source do
       use Estore.Extension
       @behaviour Estore.Source
       @before_compile Estore.Source
+
+      def child_source(data) do
+        Estore.File.source()
+      end
     end
   end
 

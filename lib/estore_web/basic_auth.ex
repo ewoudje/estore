@@ -4,7 +4,6 @@ defmodule EstoreWeb.BasicAuth do
 
   @impl true
   def init(opts) do
-    Cachex.start(:auth_cache)
     %{options: opts}
   end
 
@@ -42,72 +41,11 @@ defmodule EstoreWeb.BasicAuth do
       ["Basic", credentials] ->
         decoded_credentials = Base.decode64!(credentials)
         [username, password] = String.split(decoded_credentials, ":")
-        user = Estore.Repo.get_by(Estore.User, username: username)
 
-        case get_cached_auth(credentials) do
-          :invalid ->
-            {:error, :invalid_credentials}
-
-          :valid ->
-            {:ok, user}
-
-          :not_cached ->
-            if valid_credentials?(password, user) do
-              cache_auth(credentials, :valid)
-              {:ok, user}
-            else
-              cache_auth(credentials, :invalid)
-              {:error, :invalid_credentials}
-            end
-        end
+        Estore.UserAuth.auth(username, password)
 
       _ ->
         {:error, :invalid_auth_header}
     end
-  end
-
-  defp valid_credentials?(password, user) do
-    case user do
-      nil ->
-        false
-
-      user ->
-        Pbkdf2.verify_pass(password, user.password_hash)
-    end
-  end
-
-  defp get_cached_auth(credentials) do
-    k = :erlang.phash2(credentials)
-
-    case Cachex.get(:auth_cache, k) do
-      {:ok, nil} ->
-        Sentry.Context.add_breadcrumb(%{
-          message: "cache missed for auth",
-          category: "chache_miss",
-          type: "auth",
-          level: :debug
-        })
-
-        :not_cached
-
-      {:ok, v} ->
-        Sentry.Context.add_breadcrumb(%{
-          message: "cache hit for auth",
-          category: "cache_hit",
-          type: "auth",
-          level: :debug
-        })
-
-        Cachex.expire(:auth_cache, k, :timer.seconds(5))
-        v
-
-      {:error, _} ->
-        Sentry.capture_message("Cache error")
-        :not_cached
-    end
-  end
-
-  defp cache_auth(credentials, v) do
-    Cachex.put(:auth_cache, :erlang.phash2(credentials), v, expire: :timer.seconds(5))
   end
 end

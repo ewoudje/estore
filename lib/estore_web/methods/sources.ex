@@ -26,7 +26,7 @@ defmodule EstoreWeb.SourceMethods do
 
     source =
       if parent.source do
-        parent.source
+        Estore.Source.child_source(parent.source)
       else
         Estore.File.source()
       end

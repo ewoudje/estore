@@ -142,4 +142,8 @@ defmodule Estore.Calendar do
       %{root_id: root} -> find_root(root)
     end
   end
+
+  def child_source(_) do
+    source()
+  end
 end

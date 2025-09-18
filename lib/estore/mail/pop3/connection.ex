@@ -45,31 +45,22 @@ defmodule Estore.POP3Connection do
   end
 
   defp command(socket, "USER", username, :auth, mem) do
-    if username == "admin" do
-      ok(socket, "username selected")
-      {:ok, :auth, Map.put(mem, :username, username)}
-    else
-      err(socket, "username failed to select")
-      {:ok, :auth, mem}
-    end
+    ok(socket, "username selected")
+    {:ok, :auth, Map.put(mem, :username, username)}
   end
 
   defp command(socket, "PASS", password, :auth, %{username: username}) do
-    if password == "admin" do
-      ok(socket, "password valid")
-      user = Estore.Repo.get_by(Estore.User, username: username)
+    case Estore.UserAuth.auth(username, password) do
+      {:ok, user} ->
+        ok(socket, "password valid")
 
-      mails =
-        Estore.Resource.get_by_path(
-          Estore.Repo.preload(user, :principal).principal.fqn <> "/mails"
-        )
-        |> Estore.Resource.children()
-        |> Estore.Repo.all()
+        mails = Estore.Mails.get_from_user(user)
 
-      {:ok, :trns, %{user: user, mails: mails}}
-    else
-      err(socket, "password invalid")
-      {:ok, :auth, %{}}
+        {:ok, :trns, %{user: user, mails: Estore.Mails.all_mails(mails)}}
+
+      {:error, _} ->
+        err(socket, "login failed")
+        {:ok, :auth, %{}}
     end
   end
 
@@ -121,7 +112,7 @@ defmodule Estore.POP3Connection do
   defp command(socket, "DELE", n, :trns, mem) do
     n = String.to_integer(n)
     ok(socket, "message marked for delete")
-    {:ok, :trns, %{mem | marked2del: [n | Map.get(mem, :marked2del)]}}
+    {:ok, :trns, Map.put(mem, :marked2del, [n | Map.get(mem, :marked2del)])}
   end
 
   defp command(socket, "RSET", nil, :trns, mem) do
