@@ -55,8 +55,9 @@ defmodule Estore.POP3Connection do
         ok(socket, "password valid")
 
         mails = Estore.Mails.get_from_user(user)
-
-        {:ok, :trns, %{user: user, mails: Estore.Mails.all_mails(mails)}}
+        all_mails = Estore.Mails.all_mails(mails)
+        IO.inspect(all_mails)
+        {:ok, :trns, %{user: user, mails: all_mails}}
 
       {:error, _} ->
         err(socket, "login failed")
