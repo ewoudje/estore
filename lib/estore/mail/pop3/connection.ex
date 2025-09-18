@@ -31,15 +31,32 @@ defmodule Estore.POP3Connection do
         mem: mem
       },
       fn ->
-        case (if String.contains?(msg, " ") do
-                [cmd, param] = String.split(msg, " ", parts: 2, trim: true)
-                command(socket, String.upcase(cmd), param, state, mem)
-              else
-                command(socket, String.upcase(msg), nil, state, mem)
-              end) do
-          :quit -> {{:stop, :normal, {state, mem}}, %{stop: "Normal"}}
-          {:ok, state, mem} -> {{:noreply, {state, mem}}, %{new_state: state, new_mem: mem}}
-          {:error, e} -> {{:stop, e, {state, mem}}, %{error: e}}
+        r =
+          try do
+            if String.contains?(msg, " ") do
+              [cmd, param] = String.split(msg, " ", parts: 2, trim: true)
+              command(socket, String.upcase(cmd), param, state, mem)
+            else
+              command(socket, String.upcase(msg), nil, state, mem)
+            end
+          rescue
+            e -> {:error, e, __STACKTRACE__}
+          end
+
+        case r do
+          :quit ->
+            {{:stop, :normal, {state, mem}}, %{stop: "Normal"}}
+
+          {:ok, state, mem} ->
+            {{:noreply, {state, mem}}, %{new_state: state, new_mem: mem}}
+
+          {:error, e, st} ->
+            Sentry.capture_exception(e, stacktrace: st)
+            {{:stop, e, {state, mem}}, %{error: e, stacktrace: st}}
+
+          {:error, e} ->
+            Sentry.capture_exception(e)
+            {{:stop, e, {state, mem}}, %{error: e}}
         end
       end
     )

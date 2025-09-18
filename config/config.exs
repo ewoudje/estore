@@ -63,6 +63,8 @@ config :opentelemetry, sampler: {Sentry.OpenTelemetry.Sampler, []}
 
 config :sentry,
   environment_name: Mix.env(),
+  included_environments: :all,
+  context_lines: 5,
   release: Estore.MixProject.version(),
   traces_sample_rate: 1.0,
   enable_source_code_context: true,

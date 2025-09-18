@@ -85,6 +85,3 @@ config :phoenix_live_view,
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false
-
-config :opentelemetry, span_processor: {Sentry.OpenTelemetry.SpanProcessor, []}
-config :opentelemetry, sampler: {Sentry.OpenTelemetry.Sampler, []}
