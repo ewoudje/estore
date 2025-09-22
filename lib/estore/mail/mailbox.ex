@@ -49,5 +49,5 @@ defmodule Estore.MailBox do
   def serves_property?("DAV:", "resourcetype"), do: true
 
   def properties(resource, f, {"DAV:", "resourcetype"}),
-    do: {:append, {{@ns, "mails"}, [], []}}
+    do: {:append, {{@ns, "mailbox"}, [], []}}
 end

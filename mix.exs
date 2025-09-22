@@ -49,6 +49,7 @@ defmodule Estore.MixProject do
       {:cachex, "~> 4.1"},
       {:arbor, "~> 1.1.0"},
       {:hackney, "~> 1.25"},
+      {:timex, "~> 3.7"},
       # {:mail, "~> 0.4"},
 
       {:sentry, "~> 11.0"},
