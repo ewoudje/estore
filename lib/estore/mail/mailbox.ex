@@ -1,11 +1,11 @@
-defmodule Estore.Mails do
+defmodule Estore.MailBox do
   use Estore.Source
   use Ecto.Schema
   import Ecto.Changeset
   @ns "urn:ietf:params:xml:ns:caldav"
 
   @primary_key {:id, Ecto.UUID, autogenerate: false}
-  schema "mailss" do
+  schema "mailbox" do
     timestamps()
   end
 
@@ -18,7 +18,7 @@ defmodule Estore.Mails do
 
   @impl true
   def fetch(%Estore.Resource{id: id}) do
-    case Estore.Repo.get_by(Estore.Mails, id: id) do
+    case Estore.Repo.get_by(Estore.MailBox, id: id) do
       nil -> :not_found
       mails -> {:ok, mails}
     end
@@ -26,7 +26,7 @@ defmodule Estore.Mails do
 
   @impl true
   def new(%{}, %Estore.Resource{id: id}) do
-    Estore.Repo.insert!(%Estore.Mails{
+    Estore.Repo.insert!(%Estore.MailBox{
       id: id
     })
 
@@ -36,11 +36,11 @@ defmodule Estore.Mails do
   def get_from_user(%Estore.User{principal_id: pcp_id}) do
     import Ecto.Query
 
-    mail_pair = from m in Estore.Mails, join: r in Estore.Resource, on: m.id == r.id
+    mail_pair = from m in Estore.MailBox, join: r in Estore.Resource, on: m.id == r.id
     Estore.Repo.one(from [m, r] in mail_pair, where: r.owner_id == ^pcp_id, select: m)
   end
 
-  def all_mails(%Estore.Mails{id: id}) do
+  def all_mails(%Estore.MailBox{id: id}) do
     Estore.Repo.get_by(Estore.Resource, id: id)
     |> Estore.Resource.children()
     |> Estore.Repo.all()

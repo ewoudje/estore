@@ -23,11 +23,7 @@ config :estore, EstoreWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "krcssUilYErQS9PFOndmq5fiykvE+fih2VVdaspTIv+Vn9JJkoDkx/DGCuqCMkM3",
-  watchers: [
-    esbuild: {Esbuild, :install_and_run, [:estore, ~w(--sourcemap=inline --watch)]},
-    tailwind: {Tailwind, :install_and_run, [:estore, ~w(--watch)]}
-  ]
+  secret_key_base: "krcssUilYErQS9PFOndmq5fiykvE+fih2VVdaspTIv+Vn9JJkoDkx/DGCuqCMkM3"
 
 # ## SSL Support
 #
@@ -56,9 +52,7 @@ config :estore, EstoreWeb.Endpoint,
 config :estore, EstoreWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/estore_web/(controllers|live|components)/.*(ex|heex)$"
+      ~r"lib/.*(ex|heex)$"
     ]
   ]
 
@@ -76,12 +70,6 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-config :phoenix_live_view,
-  # Include HEEx debug annotations as HTML comments in rendered markup
-  debug_heex_annotations: true,
-  # Enable helpful, but potentially expensive runtime checks
-  enable_expensive_runtime_checks: true
 
 # Disable swoosh api client as it is only required for production adapters.
 config :swoosh, :api_client, false

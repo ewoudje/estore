@@ -21,8 +21,7 @@ defmodule Estore.MixProject do
       mod: {Estore.Application, []},
       extra_applications: [
         :logger,
-        :runtime_tools,
-        :sync
+        :runtime_tools
       ]
     ]
   end
@@ -41,6 +40,7 @@ defmodule Estore.MixProject do
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13.2"},
       {:postgrex, ">= 0.0.0"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
       {:dns_cluster, "~> 0.1.1"},
@@ -79,13 +79,7 @@ defmodule Estore.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind estore", "esbuild estore"],
-      "assets.deploy": [
-        "tailwind estore --minify",
-        "esbuild estore --minify",
-        "phx.digest"
-      ]
+      "assets.deploy": ["phx.digest"]
     ]
   end
 
