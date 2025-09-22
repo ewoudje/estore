@@ -21,7 +21,8 @@ defmodule Estore.MixProject do
       mod: {Estore.Application, []},
       extra_applications: [
         :logger,
-        :runtime_tools
+        :runtime_tools,
+        :sync
       ]
     ]
   end
@@ -40,33 +41,19 @@ defmodule Estore.MixProject do
       {:phoenix_ecto, "~> 4.5"},
       {:ecto_sql, "~> 3.13.2"},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 4.1"},
-      {:phoenix_live_reload, "~> 1.2", only: :dev},
-      {:phoenix_live_view, "~> 1.0.0"},
-      {:phoenix_live_dashboard, "~> 0.8.3"},
-      {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
-      {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
-      {:heroicons,
-       github: "tailwindlabs/heroicons",
-       tag: "v2.1.1",
-       sparse: "optimized",
-       app: false,
-       compile: false,
-       depth: 1},
       {:swoosh, "~> 1.5"},
       {:finch, "~> 0.13"},
-      {:telemetry_metrics, "~> 1.0"},
-      {:telemetry_poller, "~> 1.0"},
-      {:gettext, "~> 0.26"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:saxy, "~> 1.6"},
       {:cachex, "~> 4.1"},
       {:arbor, "~> 1.1.0"},
-      {:sentry, "~> 11.0"},
       {:hackney, "~> 1.25"},
       # {:mail, "~> 0.4"},
 
+      {:sentry, "~> 11.0"},
+      {:telemetry_metrics, "~> 1.0"},
+      {:telemetry_poller, "~> 1.0"},
       # OpenTelemetry core packages
       {:opentelemetry, "~> 1.5"},
       {:opentelemetry_api, "~> 1.4"},
