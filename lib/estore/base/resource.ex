@@ -36,7 +36,8 @@ defmodule Estore.Resource do
       collection: collection,
       source: elem(List.keyfind(opts, :source, 0, {nil, nil}), 1),
       owner: elem(List.keyfind(opts, :owner, 0, {nil, nil}), 1),
-      owner_id: elem(List.keyfind(opts, :owner_id, 0, {nil, nil}), 1)
+      owner_id: elem(List.keyfind(opts, :owner_id, 0, {nil, nil}), 1),
+      id: elem(List.keyfind(opts, :id, 0, {nil, nil}), 1)
     })
     |> Estore.Source.init()
   end
@@ -73,7 +74,7 @@ defmodule Estore.Resource do
   end
 
   def get_etag(%Estore.Resource{id: id, updated_at: updated_at}) do
-    "e-#{:erlang.phash2({id, updated_at})}-1"
+    "e-#{:rand.uniform(100_000_000)}-1"
   end
 
   def get_parent(fqn) do

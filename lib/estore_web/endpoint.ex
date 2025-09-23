@@ -37,7 +37,6 @@ defmodule EstoreWeb.Endpoint do
   plug(Plug.MethodOverride)
   plug(Plug.Head)
   plug(Plug.Session, @session_options)
-  plug(Plug.Parsers, parsers: [:urlencoded, :multipart])
   plug(EstoreWeb.Router)
   plug Sentry.PlugContext
 end

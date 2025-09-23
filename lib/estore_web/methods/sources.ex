@@ -17,7 +17,7 @@ defmodule EstoreWeb.SourceMethods do
     end
   end
 
-  def put(conn, %{resource: resource, parent: nil}),
+  def put(conn, %{resource: _, parent: nil}),
     do: Plug.Conn.send_resp(conn, 401, "Can't put to root")
 
   def put(conn, %{resource: resource, parent: parent, user: user}) do
@@ -32,11 +32,18 @@ defmodule EstoreWeb.SourceMethods do
       end
 
     {resource, created} =
-      if resource == nil do
-        {Estore.Resource.create(parent, name, false, source: source, owner_id: user.principal_id),
-         true}
-      else
-        {resource, false}
+      cond do
+        Estore.Source.parent_put?(source) ->
+          {parent, false}
+
+        resource == nil ->
+          {Estore.Resource.create(parent, name, false,
+             source: source,
+             owner_id: user.principal_id
+           ), true}
+
+        true ->
+          {resource, false}
       end
 
     {conn, :ok} = write_body(conn, resource)

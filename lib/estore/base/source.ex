@@ -97,6 +97,10 @@ defmodule Estore.Source do
     String.to_existing_atom(type).child_source(data)
   end
 
+  def parent_put?(%Estore.Source{type: type, data: data}) do
+    String.to_existing_atom(type) == Estore.Calendar
+  end
+
   defp get_source(resource) do
     case Estore.Repo.preload(resource, :source) do
       %Estore.Resource{source: nil} ->
@@ -112,10 +116,6 @@ defmodule Estore.Source do
       use Estore.Extension
       @behaviour Estore.Source
       @before_compile Estore.Source
-
-      def child_source(data) do
-        Estore.File.source()
-      end
     end
   end
 
@@ -133,6 +133,10 @@ defmodule Estore.Source do
 
       def source() do
         Estore.Source.get(__MODULE__)
+      end
+
+      def child_source(_) do
+        Estore.File.source()
       end
     end
   end

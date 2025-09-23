@@ -8,6 +8,12 @@ defmodule EstoreWeb.Router do
     plug(:put_secure_browser_headers)
   end
 
+  pipeline :mail do
+    plug(Plug.Parsers, parsers: [:urlencoded, :multipart])
+    plug(:protect_from_forgery)
+    plug(:put_secure_browser_headers)
+  end
+
   pipeline :dav do
     plug(EstoreWeb.Dav)
     plug(EstoreWeb.BasicAuth)
@@ -23,7 +29,12 @@ defmodule EstoreWeb.Router do
   end
 
   forward("/.well-known/caldav", Plug.Redirect, to: "/")
-  match(:post, "/mail/mime", EstoreWeb.RecieveMailController, :post)
+
+  scope "/mail" do
+    pipe_through(:mail)
+    match(:post, "/mail/mime", EstoreWeb.RecieveMailController, :post)
+  end
+
   match(:options, "/*path", EstoreWeb.OptionsController, :options)
 
   scope "/", EstoreWeb do

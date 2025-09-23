@@ -13,13 +13,13 @@ defmodule Estore.ICS.DateParser do
 
   def parse_datetime(value, tzid) do
     case {tzid, parse_string(value)} do
-      {_, %Date{}} = date ->
-        NaiveDateTime.new!(date, ~T[00:00:00])
+      {_, {:error, _} = e} ->
+        e
 
-      {nil, dt} ->
-        dt
+      {_, {:ok, %Date{} = date}} ->
+        NaiveDateTime.new(date, ~T[00:00:00])
 
-      {v, %NaiveDateTime{} = naive} ->
+      {{"TZID", v}, {:ok, %NaiveDateTime{} = naive}} ->
         DateTime.from_naive(naive, v)
 
       {_, dt} ->
@@ -31,35 +31,24 @@ defmodule Estore.ICS.DateParser do
   defp parse_string(<<_date::binary-size(8), "T", _time::binary-size(6), "Z">> = date_time) do
     with {:ok, naive_date_time} <- Timex.parse(date_time, "%Y%m%dT%H%M%SZ", :strftime),
          {:ok, date_time} <- DateTime.from_naive(naive_date_time, "Etc/UTC") do
-      DateTime.truncate(date_time, :second)
-    else
-      _ -> nil
+      {:ok, DateTime.truncate(date_time, :second)}
     end
   end
 
   # Date Format: "19690620T201804"
   defp parse_string(<<_date::binary-size(8), "T", _time::binary-size(6)>> = date_time) do
     case Timex.parse(date_time, "%Y%m%dT%H%M%S", :strftime) do
-      {:ok, naive_date_time} -> NaiveDateTime.truncate(naive_date_time, :second)
-      _error -> nil
+      {:ok, naive_date_time} -> {:ok, NaiveDateTime.truncate(naive_date_time, :second)}
+      e -> e
     end
   end
 
   # Date Format: "19690620"
   defp parse_string(<<_date::binary-size(8)>> = date_time) do
     with {:ok, naive_date_time} <- Timex.parse(date_time, "%Y%m%d", :strftime) do
-      NaiveDateTime.to_date(naive_date_time)
-    else
-      _ -> nil
+      {:ok, NaiveDateTime.to_date(naive_date_time)}
     end
   end
 
-  defp parse_string(_), do: nil
-
-  defp safe_add_timezone(ndt, time_zone) do
-    case DateTime.from_naive(ndt, time_zone) do
-      {:ok, dt} -> dt
-      _ -> nil
-    end
-  end
+  defp parse_string(_), do: {:error, :invalid_string}
 end

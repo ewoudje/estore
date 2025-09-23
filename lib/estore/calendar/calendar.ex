@@ -7,18 +7,17 @@ defmodule Estore.Calendar do
 
   @primary_key {:id, Ecto.UUID, autogenerate: false}
   schema "calendar_resources" do
-    field(:content_size, :integer)
-    field(:type, Ecto.Enum, values: [:unknown, :root, :event])
-    field(:entries, {:array, :string})
+    field(:type, Ecto.Enum, values: [:unknown, :root])
+    field(:contents, :map)
     belongs_to(:root, Estore.Calendar, type: Ecto.UUID)
   end
 
   @doc false
   def changeset(calendar, attrs) do
     calendar
-    |> cast(attrs, [:content_size, :type, :entries, :root_id])
+    |> cast(attrs, [:type, :contents, :root_id])
     |> cast_assoc(:root)
-    |> validate_required([:content_size, :type, :entries])
+    |> validate_required([:type, :contents])
   end
 
   @impl true
@@ -72,39 +71,49 @@ defmodule Estore.Calendar do
   def new(%{}, %Estore.Resource{id: id}) do
     Estore.Repo.insert!(%Estore.Calendar{
       id: id,
-      content_size: 0,
       type: :unknown,
       root: nil,
-      entries: []
+      contents: %{}
     })
 
     :ok
   end
 
   def configure_calendar_root(%Estore.Resource{id: id}) do
-    Estore.Repo.update!(Ecto.Changeset.change(%Estore.Calendar{id: id}, type: :root, entries: []))
+    Estore.Repo.update!(Ecto.Changeset.change(%Estore.Calendar{id: id}, type: :root))
   end
 
   @impl true
   def write(%{}, %Estore.Resource{id: id}, binary, state) do
     state = state || []
-    lines = Estore.ICS.into_lines(binary)
+    lines = String.split(binary, ~r/(\r\n|\r|\n)/, trim: true)
     {:ok, state ++ lines}
   end
 
   @impl true
-  def finish_write(%{}, %Estore.Resource{id: id, parent_id: parent_id}, state) do
-    # {:calendar, _, [{type, entries}]} = Estore.ICS.decode_lines(state)
-    current = Estore.Repo.get!(Estore.Calendar, id) |> Estore.Repo.preload(:root)
+  def finish_write(%{}, %Estore.Resource{id: root_id, owner_id: owner_id} = r, state) do
+    Estore.Repo.transact(fn ->
+      root = Estore.Repo.get!(Estore.Calendar, root_id)
 
-    Estore.Repo.update!(
-      change(current, %{
-        type: :unknown,
-        root_id: find_root(parent_id),
-        # Enum.map(entries, &Estore.ICS.encode_property/1)
-        entries: state
-      })
-    )
+      for %{type: t, uuid: id} = m <- IO.inspect(Estore.ICS.decode(state)) do
+        Estore.Resource.create(r, id <> ".ics", false,
+          id: id,
+          owner_id: owner_id,
+          source: source()
+        )
+
+        Estore.Repo.update!(
+          change(Estore.Repo.get!(Estore.Calendar, id) |> Estore.Repo.preload(:root), %{
+            id: id,
+            type: :unknown,
+            root: root,
+            contents: m
+          })
+        )
+      end
+
+      {:ok, nil}
+    end)
 
     :ok
   end
@@ -118,21 +127,6 @@ defmodule Estore.Calendar do
 
   defp _read(calendar) do
     Enum.join(calendar.entries, "\r\n")
-  end
-
-  defp _read(calendar, start) do
-    require Ecto.Query
-
-    if calendar.type == :root do
-      Enum.reduce(
-        Ecto.Query.where(Estore.Calendar, root_id: ^calendar.id) |> Estore.Repo.all(),
-        start,
-        &_read(&1, &2)
-      )
-    else
-      type_str = Estore.ICS.type2str(calendar.type)
-      start ++ ["BEGIN:#{type_str}" | calendar.entries] ++ ["END:#{type_str}"]
-    end
   end
 
   defp find_root(id) do
