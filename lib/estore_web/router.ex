@@ -32,7 +32,7 @@ defmodule EstoreWeb.Router do
 
   scope "/mail" do
     pipe_through(:mail)
-    match(:post, "/mail/mime", EstoreWeb.RecieveMailController, :post)
+    match(:post, "/mime", EstoreWeb.RecieveMailController, :post)
   end
 
   match(:options, "/*path", EstoreWeb.OptionsController, :options)

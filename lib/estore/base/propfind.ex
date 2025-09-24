@@ -35,7 +35,7 @@ defmodule Estore.Propfind do
       category: "estore.propfind.fetch_props",
       message: "fetching properties",
       level: :debug,
-      data: {resource, properties}
+      data: %{resource: resource, properties: properties}
     })
 
     process_properties(
