@@ -20,6 +20,7 @@ ENV MIX_ENV=prod
 # Only copy the final release from the build stage
 COPY --chown=container:container _build/prod/rel/estore ./
 RUN chmod +x /app/bin/server
+RUN chmod ugo+rw /opt/app/lib/tzdata-1.1.3/priv/*
 
 WORKDIR /home/container
 COPY --chown=container:container README.md ./
