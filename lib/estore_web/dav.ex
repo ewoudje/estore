@@ -8,7 +8,7 @@ defmodule EstoreWeb.Dav do
   @methods ~w(PROPFIND PROPPATCH GET HEAD POST DELETE PUT COPY MOVE MKCOL REPORT)
 
   @impl true
-  def init(opts) do
+  def init(_opts) do
   end
 
   @impl true
@@ -16,7 +16,7 @@ defmodule EstoreWeb.Dav do
         %{
           method: method
         } = conn,
-        options
+        _options
       )
       when method in @methods do
     :telemetry.span([:estore, :dav], %{method: method}, fn ->
@@ -95,7 +95,7 @@ defmodule EstoreWeb.Dav do
 
     if header do
       {"content-type", content_type} = header
-      {:ok, type, "xml", params} = Conn.Utils.content_type(content_type)
+      {:ok, _type, "xml", _params} = Conn.Utils.content_type(content_type)
       # TODO if not xml Conn.send_resp(conn, 415, "Unsupported Media Type")
 
       {:ok, body, conn} = Conn.read_body(conn)
@@ -203,19 +203,19 @@ defmodule EstoreWeb.Dav do
     end
   end
 
-  defp handle_etag(conn) do
-    resource = Map.get(conn.params, :resource)
+  # defp handle_etag(conn) do
+  #   resource = Map.get(conn.params, :resource)
 
-    if resource do
-      etag = Estore.Resource.get_etag(resource)
+  #   if resource do
+  #     etag = Estore.Resource.get_etag(resource)
 
-      if Plug.Conn.get_req_header(conn, "if-none-match") == etag do
-        Conn.resp(conn, 304, "Not Modified")
-      else
-        Conn.put_resp_header(conn, "etag", etag)
-      end
-    else
-      conn
-    end
-  end
+  #     if Plug.Conn.get_req_header(conn, "if-none-match") == etag do
+  #       Conn.resp(conn, 304, "Not Modified")
+  #     else
+  #       Conn.put_resp_header(conn, "etag", etag)
+  #     end
+  #   else
+  #     conn
+  #   end
+  # end
 end

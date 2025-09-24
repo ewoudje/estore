@@ -36,7 +36,7 @@ defmodule EstoreWeb.BasicAuth do
     end
   end
 
-  defp validate_credentials(auth_header, option) do
+  defp validate_credentials(auth_header, _) do
     case String.split(auth_header, " ") do
       ["Basic", credentials] ->
         decoded_credentials = Base.decode64!(credentials)

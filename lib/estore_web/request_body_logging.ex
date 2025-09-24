@@ -24,7 +24,7 @@ defmodule EstoreWeb.RequestBodyLogging do
 
     n_idx =
       if n_idx >= max do
-        n_idx = 0
+        0
       else
         n_idx
       end

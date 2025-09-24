@@ -15,7 +15,7 @@ SUMMARY:Access-A-Ride Pickup
 DTSTART;TZID=America/New_York:20130802T200000
 DTEND;TZID=America/New_York:20130802T203000
 LOCATION:900 Jay St.\, Brooklyn
-DESCRIPTION: Access-A-Ride trip to 1000 Broadway Ave.\, Brooklyn
+DESCRIPTION;ALTREP="data:text/html,Yes":Yes
 STATUS:CONFIRMED
 SEQUENCE:3
 END:VEVENT

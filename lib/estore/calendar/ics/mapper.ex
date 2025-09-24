@@ -3,6 +3,7 @@ defmodule Estore.ICS.Mapper do
     decode(String.split(ics, ~r/(\r\n|\r|\n)/, trim: true))
   end
 
+  # TODO handle ,DESCRIPTION;ALTREP="data:text/html,Yes":Yes,
   def decode(ics) when is_list(ics) do
     ics
     |> Enum.map(&String.split(&1, ":"))
