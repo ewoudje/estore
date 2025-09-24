@@ -10,8 +10,6 @@ defmodule EstoreWeb.Router do
 
   pipeline :mail do
     plug(Plug.Parsers, parsers: [:urlencoded, :multipart])
-    plug(:protect_from_forgery)
-    plug(:put_secure_browser_headers)
   end
 
   pipeline :dav do
