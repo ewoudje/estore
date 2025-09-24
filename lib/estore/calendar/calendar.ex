@@ -7,7 +7,7 @@ defmodule Estore.Calendar do
 
   @primary_key {:id, Ecto.UUID, autogenerate: false}
   schema "calendar_resources" do
-    field(:type, Ecto.Enum, values: [:unknown, :root])
+    field(:type, Ecto.Enum, values: [:unknown, :root, :event])
     field(:contents, :map)
     belongs_to(:root, Estore.Calendar, type: Ecto.UUID)
   end
@@ -100,11 +100,11 @@ defmodule Estore.Calendar do
     Estore.Repo.transact(fn ->
       root = Estore.Repo.get!(Estore.Calendar, root_id)
 
-      for {id, %{type: t} = m} <- IO.inspect(Estore.ICS.decode(state)) do
+      for {id, %{type: t} = m} <- Estore.ICS.decode(state) do
         if t != "VCALENDAR" do
           id = Map.get(m, "UID", id)
 
-          if Estore.Repo.get(Estore.Resource, id) == nil do
+          if t == "VEVENT" and Estore.Repo.get(Estore.Resource, id) == nil do
             Estore.Resource.create(r, id <> ".ics", false,
               id: id,
               owner_id: owner_id,
@@ -112,13 +112,22 @@ defmodule Estore.Calendar do
             )
           end
 
-          Estore.Repo.update!(
-            change(Estore.Repo.get!(Estore.Calendar, id) |> Estore.Repo.preload(:root), %{
-              id: id,
-              type: :unknown,
-              root: root,
-              contents: m2json(m, id)
-            })
+          Estore.Repo.insert_or_update!(
+            change(
+              case Estore.Repo.get(Estore.Calendar, id) do
+                nil -> %Estore.Calendar{id: id, root: root}
+                c -> c
+              end,
+              %{
+                type:
+                  if t == "VEVENT" do
+                    :event
+                  else
+                    :unknown
+                  end,
+                contents: m2json(m, id)
+              }
+            )
           )
         end
       end
@@ -194,7 +203,12 @@ defmodule Estore.Calendar do
         {:type, v}
 
       {k, [args, v]} when k in ~w(COMPLETED DTEND DUE DTSTART) ->
-        {:ok, dt, _} = DateTime.from_iso8601(v)
+        dt =
+          case DateTime.from_iso8601(v) do
+            {:ok, dt, _} -> dt
+            {:error, :missing_offset} -> NaiveDateTime.from_iso8601!(v)
+          end
+
         {k, {Enum.map(args, fn [k, v] -> {k, v} end), dt}}
 
       {k, [args, v]} ->
