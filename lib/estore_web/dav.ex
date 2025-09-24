@@ -102,8 +102,12 @@ defmodule EstoreWeb.Dav do
       EstoreWeb.RequestBodyLogging.request_body(body, conn)
 
       case Estore.XML.decode(body) do
-        {:ok, xml} -> %{conn | body_params: xml, params: Map.put(conn.params, :xml, xml)}
-        {:error, e} -> Conn.resp(conn, 400, "XML Parsing failed: #{inspect(e.reason)}")
+        {:ok, xml} ->
+          Sentry.Context.set_extra_context(%{xml: xml})
+          %{conn | body_params: xml, params: Map.put(conn.params, :xml, xml)}
+
+        {:error, e} ->
+          Conn.resp(conn, 400, "XML Parsing failed: #{inspect(e.reason)}")
       end
     else
       Conn.resp(conn, 400, "Bad Request: Expected a Content-Type")
@@ -113,6 +117,8 @@ defmodule EstoreWeb.Dav do
   defp get_resource(conn, optional \\ false) do
     resource =
       Estore.Repo.get_by(Estore.Resource, fqn: Estore.Resource.get_fqn(conn.request_path))
+
+    Sentry.Context.set_extra_context(%{resource: resource})
 
     if !optional && resource == nil do
       Conn.resp(conn, 404, "Resource not found")
@@ -140,6 +146,7 @@ defmodule EstoreWeb.Dav do
 
   defp get_depth(conn) do
     {"depth", depth} = List.keyfind(conn.req_headers, "depth", 0, {"depth", "0"})
+    Sentry.Context.set_extra_context(%{depth: depth})
 
     %{
       conn
