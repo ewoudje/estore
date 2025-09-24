@@ -50,7 +50,7 @@ defmodule EstoreWeb.DavController do
     name = String.slice(path, String.length(parent.fqn)..-1//1)
 
     collection = Estore.Resource.create(parent, name, true)
-    Estore.StdProperties.set(collection, name, 0, "")
+    Estore.StdProperties.set(collection, name)
     Plug.Conn.send_resp(conn, 201, "Created")
   end
 
@@ -62,7 +62,7 @@ defmodule EstoreWeb.DavController do
   def copy(conn, %{resource: resource, destination: destination}) do
     parent = Estore.Resource.get_parent(destination)
     Estore.Resource.create(parent, destination, resource.collection)
-    Estore.Files.copy(resource, destination)
+    Estore.File.copy(resource, destination)
     # TODO copy properties, and copy depth
     Plug.Conn.send_resp(conn, 201, "Copied")
   end

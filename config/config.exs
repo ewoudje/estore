@@ -17,7 +17,7 @@ config :estore, EstoreWeb.Endpoint,
   adapter: Bandit.PhoenixAdapter,
   pubsub_server: Estore.PubSub,
   render_errors: [
-    view: EstoreWeb.ErrorHTML,
+    formats: [text: EstoreWeb.ErrorHTML],
     layout: false
   ]
 
