@@ -5,31 +5,46 @@ defmodule Estore.ICS do
   end
 
   def map2ics(map) do
-    Estore.ICS.Mapper.encode("BEGIN:VCALENDAR\r\n", Map.to_list(map)) <> "END:VCALENDAR\r\n"
+    Estore.ICS.Mapper.encode("BEGIN:VCALENDAR\r\n", map) <> "END:VCALENDAR\r\n"
   end
 
   def decode(ics), do: decode("VCALENDAR", ics2map(ics))
 
-  def decode(type, map) when is_map(map) do
-    id = Ecto.UUID.generate()
+  def decode(type, contents, id \\ Ecto.UUID.generate())
+      when is_map(contents) do
+    id = Map.get(contents, "UID", id)
 
-    Enum.reduce(map, [%{type: type, uuid: id}], fn
+    Enum.reduce(contents, %{id => %{:type => type, "UID" => id}}, fn
       {"VTIMEZONE", _}, x ->
         x
 
-      {k, entries}, [m | tail] when is_list(entries) ->
-        {refs, tail} =
-          Enum.map_reduce(entries, tail, fn m, l ->
-            [%{uuid: ref}] = i = decode(k, m)
-            {ref, i ++ l}
+      {k, entries}, m when is_list(entries) ->
+        {refs, m} =
+          Enum.map_reduce(entries, m, fn entry_contents, m ->
+            new_id = Map.get(entry_contents, "UID", Ecto.UUID.generate())
+            {new_id, Map.merge(m, decode(k, entry_contents, new_id))}
           end)
 
-        [Map.put(m, :refs, refs) | tail]
+        Map.replace_lazy(m, id, &Map.put(&1, :refs, refs ++ Map.get(&1, :refs, [])))
 
-      {k, {args, v}}, [m | tail] ->
-        [Map.put(m, k, [Enum.map(args, fn {k, v} -> [k, v] end), v]) | tail]
+      {k, v}, m ->
+        Map.replace_lazy(m, id, &Map.put(&1, k, v))
+    end)
+  end
+
+  def encode(store, id) do
+    map2ics(encode_(store, id))
+  end
+
+  def encode_(store, id) do
+    value = store.(id)
+
+    Enum.reduce(Map.get(value, :refs, []), value, fn ref_id, m ->
+      v = encode_(store, ref_id)
+      Map.put(m, v.type, [v | Map.get(m, v.type, [])])
     end)
   end
 end
 
-# File.read!("test/icsexample1.ics") |> Estore.ICS.decode()
+# a = File.read!("test/icsexample1.ics") |> Estore.ICS.decode()
+# Estore.ICS.encode(&a[&1],

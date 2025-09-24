@@ -1,6 +1,6 @@
 defmodule Estore.ICS.Mapper do
   def decode(ics) when is_bitstring(ics) do
-    decode(String.split(~r/(\r\n|\r|\n)/, trim: true))
+    decode(String.split(ics, ~r/(\r\n|\r|\n)/, trim: true))
   end
 
   def decode(ics) when is_list(ics) do
@@ -32,13 +32,20 @@ defmodule Estore.ICS.Mapper do
 
   defp decode_entries([{"END", {[], type}} | tail], map), do: {map, tail, type}
 
+  defp decode_entries([{"UID", {[], v}} | tail], map),
+    do: decode_entries(tail, Map.put(map, "UID", v))
+
   defp decode_entries([{key, {args, value}} | tail], map) do
     decode_entries(tail, Map.put(map, key, {args, value}))
   end
 
   defp decode_entries([], map), do: map
 
-  defp encode(str, [{type, lst} | tail]) when is_list(lst) do
+  def encode(str, map) when is_map(map) do
+    encode(str, Map.to_list(map))
+  end
+
+  def encode(str, [{type, lst} | tail]) when is_list(lst) and is_bitstring(type) do
     encode(
       Enum.reduce(lst, str, fn x, s ->
         encode(
@@ -50,14 +57,16 @@ defmodule Estore.ICS.Mapper do
     )
   end
 
-  defp encode(str, [{k, {args, value}} | tail]) do
+  def encode(str, [{k, {args, value}} | tail]) when is_bitstring(k) do
     encode(
       str <> k <> serialize_args(k, args) <> ":" <> serialize_value(k, args, value) <> "\r\n",
       tail
     )
   end
 
-  defp encode(str, []), do: str
+  def encode(str, [{"UID", id} | tail]), do: encode(str <> "UID:" <> id <> "\r\n", tail)
+  def encode(str, [{k, _} | tail]) when is_atom(k), do: encode(str, tail)
+  def encode(str, []), do: str
 
   defp serialize_args(_, []), do: ""
 
@@ -77,6 +86,21 @@ defmodule Estore.ICS.Mapper do
 
   defp parse_value(_, _, value), do: value
   defp parse_arg(_, _, value), do: value
+
+  defp serialize_value(_, _, %NaiveDateTime{} = d),
+    do: NaiveDateTime.to_iso8601(d, :basic)
+
+  defp serialize_value(_, args, %DateTime{} = d),
+    do:
+      NaiveDateTime.to_iso8601(
+        if List.keymember?(args, "TZID", 0) do
+          {"TZID", tz} = List.keyfind!(args, "TZID", 0)
+          DateTime.shift_zone!(d, tz)
+        else
+          d
+        end,
+        :basic
+      )
 
   defp serialize_arg(_, _, value) when is_bitstring(value), do: value
   defp serialize_value(_, _, value) when is_bitstring(value), do: value

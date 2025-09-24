@@ -47,7 +47,12 @@ defmodule Estore.Calendar do
       #  {:value, Enum.map(["EVENT", "CALENDAR"], &{{@ns, "comp"}, [{"name", &1}], []})}
 
       {@ns, "calendar-data"} ->
-        {:value, _read(f)}
+        if f.type == :root do
+          :not_found
+        else
+          {:ok, r} = _read(f)
+          {:value, r}
+        end
 
       {"DAV:", "resourcetype"} ->
         if (resource.collection and f.type == :root) or f.type != :root do
@@ -95,21 +100,27 @@ defmodule Estore.Calendar do
     Estore.Repo.transact(fn ->
       root = Estore.Repo.get!(Estore.Calendar, root_id)
 
-      for %{type: t, uuid: id} = m <- IO.inspect(Estore.ICS.decode(state)) do
-        Estore.Resource.create(r, id <> ".ics", false,
-          id: id,
-          owner_id: owner_id,
-          source: source()
-        )
+      for {id, %{type: t} = m} <- IO.inspect(Estore.ICS.decode(state)) do
+        if t != "VCALENDAR" do
+          id = Map.get(m, "UID", id)
 
-        Estore.Repo.update!(
-          change(Estore.Repo.get!(Estore.Calendar, id) |> Estore.Repo.preload(:root), %{
-            id: id,
-            type: :unknown,
-            root: root,
-            contents: m
-          })
-        )
+          if Estore.Repo.get(Estore.Resource, id) == nil do
+            Estore.Resource.create(r, id <> ".ics", false,
+              id: id,
+              owner_id: owner_id,
+              source: source()
+            )
+          end
+
+          Estore.Repo.update!(
+            change(Estore.Repo.get!(Estore.Calendar, id) |> Estore.Repo.preload(:root), %{
+              id: id,
+              type: :unknown,
+              root: root,
+              contents: m2json(m, id)
+            })
+          )
+        end
       end
 
       {:ok, nil}
@@ -122,11 +133,27 @@ defmodule Estore.Calendar do
   def read(%{}, %Estore.Resource{id: id}) do
     calendar = Estore.Repo.get!(Estore.Calendar, id)
 
-    {:ok, _read(calendar)}
+    _read(calendar)
   end
 
   defp _read(calendar) do
-    Enum.join(calendar.entries, "\r\n")
+    Estore.Repo.transact(fn ->
+      resource =
+        Estore.ICS.encode_(
+          &json2m(Estore.Repo.get!(Estore.Calendar, &1).contents, &1),
+          calendar.id
+        )
+
+      type = calendar.contents["type"]
+
+      {:ok,
+       Estore.ICS.map2ics(%{
+         type => [resource],
+         "PRODID" => {[], "//ewoudje.com/ESTORE V1//EN"},
+         "VERSION" => {[], "2.0"},
+         "CALSCALE" => {[], "GREGORIAN"}
+       })}
+    end)
   end
 
   defp find_root(id) do
@@ -139,5 +166,40 @@ defmodule Estore.Calendar do
 
   def child_source(_) do
     source()
+  end
+
+  defp m2json(map, id),
+    do:
+      Map.new(
+        map
+        |> Enum.filter(fn
+          {"UID", _} -> false
+          _ -> true
+        end)
+        |> Enum.map(fn
+          {k, {args, v}} ->
+            {k, [Enum.map(args, fn {k, v} -> [k, v] end), v]}
+
+          a ->
+            a
+        end)
+      )
+
+  defp json2m(map, id) do
+    Map.new(map, fn
+      {"refs", v} ->
+        {:refs, v}
+
+      {"type", v} ->
+        {:type, v}
+
+      {k, [args, v]} when k in ~w(COMPLETED DTEND DUE DTSTART) ->
+        {:ok, dt, _} = DateTime.from_iso8601(v)
+        {k, {Enum.map(args, fn [k, v] -> {k, v} end), dt}}
+
+      {k, [args, v]} ->
+        {k, {Enum.map(args, fn [k, v] -> {k, v} end), v}}
+    end)
+    |> Map.put("UID", id)
   end
 end
