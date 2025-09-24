@@ -1,4 +1,4 @@
-defmodule EstoreWeb.DavController do
+defmodule EstoreWeb.ErrorHTML do
   use EstoreWeb, :controller
 
   def render(template, assigns) do
