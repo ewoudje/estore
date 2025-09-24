@@ -46,7 +46,7 @@ defmodule Estore.Report.CalQuery do
     end
   end
 
-  defp filters_resource(resource, []) do
+  defp filters_resource(_resource, []) do
     {:ok, false}
   end
 

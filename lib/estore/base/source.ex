@@ -97,7 +97,7 @@ defmodule Estore.Source do
     String.to_existing_atom(type).child_source(data)
   end
 
-  def parent_put?(%Estore.Source{type: type, data: data}) do
+  def parent_put?(%Estore.Source{type: type}) do
     String.to_existing_atom(type) == Estore.Calendar
   end
 

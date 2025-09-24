@@ -103,6 +103,6 @@ defmodule Estore.ICS.Mapper do
         :basic
       )
 
-  defp serialize_arg(_, _, value) when is_bitstring(value), do: value
   defp serialize_value(_, _, value) when is_bitstring(value), do: value
+  defp serialize_arg(_, _, value) when is_bitstring(value), do: value
 end
