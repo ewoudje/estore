@@ -8,7 +8,16 @@ defmodule Estore.ICS do
     Estore.ICS.Mapper.encode("BEGIN:VCALENDAR\r\n", map) <> "END:VCALENDAR\r\n"
   end
 
-  def decode(ics), do: decode("VCALENDAR", ics2map(ics))
+  def decode(ics) do
+    Sentry.Context.add_breadcrumb(%{
+      category: "estore.ics.decoding",
+      message: "parsing ics",
+      level: :debug,
+      data: ics
+    })
+
+    decode("VCALENDAR", ics2map(ics))
+  end
 
   def decode(type, contents, id \\ Ecto.UUID.generate())
       when is_map(contents) do
@@ -32,7 +41,14 @@ defmodule Estore.ICS do
     end)
   end
 
-  def encode(store, id) do
+  def encode(store, id) when is_bitstring(id) do
+    Sentry.Context.add_breadcrumb(%{
+      category: "estore.ics.encoding",
+      message: "serializing ics " <> id,
+      level: :debug,
+      data: store
+    })
+
     map2ics(encode_(store, id))
   end
 
