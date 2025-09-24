@@ -15,7 +15,11 @@ config :estore,
 config :estore, EstoreWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Bandit.PhoenixAdapter,
-  pubsub_server: Estore.PubSub
+  pubsub_server: Estore.PubSub,
+  render_errors: [
+    formats: [html: EstoreWeb.ErrorHTML],
+    layout: false
+  ]
 
 # Configures the mailer
 #

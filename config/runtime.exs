@@ -73,6 +73,8 @@ if config_env() == :prod do
     mail_key: System.get_env("MAILGUN_SIGNING_KEY"),
     pop3_port: String.to_integer(System.get_env("POP3_PORT"))
 
+  config :tzdata, :data_dir, "elixir_tzdata_data"
+
   # ## SSL Support
   #
   # To get SSL working, you will need to add the `https` key

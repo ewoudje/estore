@@ -10,6 +10,3 @@ config :swoosh, local: false
 config :logger,
   level: :info,
   backends: [:console, Sentry.LoggerBackend]
-
-# Runtime production configuration, including reading
-# of environment variables, is done on config/runtime.exs.

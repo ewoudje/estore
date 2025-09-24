@@ -39,10 +39,4 @@ defmodule EstoreWeb.Endpoint do
   plug(Plug.Session, @session_options)
   plug(EstoreWeb.Router)
   plug Sentry.PlugContext
-
-  plug :not_found
-
-  def not_found(conn, _) do
-    send_resp(conn, 404, "not found")
-  end
 end
