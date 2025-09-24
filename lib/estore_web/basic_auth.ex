@@ -16,11 +16,11 @@ defmodule EstoreWeb.BasicAuth do
              {:ok, user} ->
                %{conn | params: Map.put(conn.params, :user, user)}
 
-             {:error, reason} ->
+             {:error, _} ->
                Conn.halt(Conn.send_resp(conn, 401, "Unauthorized"))
            end
 
-         {:error, reason} ->
+         {:error, _} ->
            conn
            |> Conn.put_resp_header("WWW-Authenticate", "Basic realm=\"Estore\"")
            |> Conn.send_resp(401, "Unauthorized")

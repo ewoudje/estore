@@ -29,7 +29,7 @@ defmodule EstoreWeb.RecieveMailController do
     end
   end
 
-  defp store_mail(user, name, sender, subject, recipient, mime) do
+  defp store_mail(user, name, _, subject, _, mime) do
     mails =
       Estore.Resource.get_by_path(Estore.Repo.preload(user, :principal).principal.fqn <> "/mails")
 

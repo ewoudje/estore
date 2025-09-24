@@ -1,7 +1,7 @@
 defmodule EstoreWeb.OptionsController do
   use EstoreWeb, :controller
 
-  def options(conn, input) do
+  def options(conn, _) do
     conn
     |> Plug.Conn.put_resp_header("DAV", "1, calendar-access, access-control")
     |> Plug.Conn.put_resp_header(
