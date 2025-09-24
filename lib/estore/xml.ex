@@ -86,7 +86,7 @@ defmodule Estore.XML do
   @impl true
   def handle_event(
         :end_element,
-        name,
+        _,
         {[content, parent | lst], [_ | namespaces]}
       ) do
     {name, attributes, contents} = parent

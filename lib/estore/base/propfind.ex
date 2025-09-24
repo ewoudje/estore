@@ -31,6 +31,13 @@ defmodule Estore.Propfind do
   end
 
   defp fetch_props(resource, properties) do
+    Sentry.Context.add_breadcrumb(%{
+      category: "estore.propfind.fetch_props",
+      message: "fetching properties",
+      level: :debug,
+      data: {resource, properties}
+    })
+
     process_properties(
       Estore.Extension.apply_for_properties(:properties, resource, properties)
       |> Enum.filter(fn
